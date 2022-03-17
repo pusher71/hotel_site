@@ -9,22 +9,16 @@ namespace hotel_site
 {
     public class DataContext : DbContext
     {
-        //public DbSet<Category> Categories { get; set; }
-        //public DbSet<Product> Products { get; set; }
-        //public DbSet<Comment> Comments { get; set; }
+        public DbSet<HotelInfo> HotelInfo { get; set; }
 
         public DataContext()
         {
-            //_ = Categories.ToList();
-            //_ = Products.ToList();
-            //_ = Comments.ToList();
+            _ = HotelInfo.ToList();
         }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            //_ = Categories.ToList();
-            //_ = Products.ToList();
-            //_ = Comments.ToList();
+            _ = HotelInfo.ToList();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

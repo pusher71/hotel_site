@@ -1,16 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@model HotelInfo
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Info</title>
+    <title>Hotel</title>
 </head>
 <body>
-    <h1>Отель ...</h1>
-    <p>Отель был основан в 1969 году и на данный момент является одним из самых популярных.</p>
+    <h1>Отель "@Model.Name"</h1>
+    <p>@Model.Description</p>
     <p> </p>
-    <p>Адрес: ...</p>
-    <p>Контактный телефон: ...</p>
-    <p>E-mail: ...</p>
+    <p>Адрес: @Model.Address</p>
+    <p>Контактный телефон: @Model.PhoneNumber</p>
+    <p>E-mail: @Model.Email</p>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <a asp-area="" asp-controller="Home" asp-action="SetHotelInfo">Редактировать информацию об отеле</a>
+    }
 </body>
 </html>
