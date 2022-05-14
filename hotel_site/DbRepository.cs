@@ -14,16 +14,16 @@ namespace hotel_site
         public DbRepository(DataContext dataContext)
         {
             _context = dataContext;
-            if (_context.HotelInfo.Any()) return;
+            if (_context.Hotel.Any()) return;
 
             //добавление информации об отеле
-            HotelInfo hotelInfo = new HotelInfo(1,
+            Hotel hotelInfo = new Hotel(1,
                 "Восточные воды",
                 "Отель был основан в 1969 году и на данный момент является одним из самых популярных.",
                 "ул. Калужская, д. 13",
                 "8-909-998-87-76",
                 "eastwater@yandex.ru");
-            _context.HotelInfo.Add(hotelInfo);
+            _context.Hotel.Add(hotelInfo);
 
             //// Добавление категорий
             //Category drill = new Category(1, "Безударная дрель");
@@ -66,15 +66,15 @@ namespace hotel_site
             _context.SaveChanges();
         }
 
-        public HotelInfo GetHotelInfo()
+        public Hotel GetHotel()
         {
-            return _context.HotelInfo.FirstOrDefault(k => k.Id == 1);
+            return _context.Hotel.FirstOrDefault(k => k.Id == 1);
         }
 
-        public void SetHotelInfo(HotelInfo info)
+        public void SetHotel(Hotel hotel)
         {
-            _context.HotelInfo.Remove(GetHotelInfo());
-            _context.HotelInfo.Add(info);
+            _context.Hotel.Remove(GetHotel());
+            _context.Hotel.Add(hotel);
             //_context.Entry(info).State = EntityState.Modified;
             _context.SaveChanges();
         }

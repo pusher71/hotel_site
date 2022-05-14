@@ -9,16 +9,25 @@ namespace hotel_site
 {
     public class DataContext : DbContext
     {
-        public DbSet<HotelInfo> HotelInfo { get; set; }
+        public DbSet<Hotel> Hotel { get; set; }
+        public DbSet<HotelPhoto> HotelPhoto { get; set; }
+        public DbSet<Room> Room { get; set; }
+        public DbSet<RoomPhoto> RoomPhoto { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Message> Message { get; set; }
+        public DbSet<Service> Service { get; set; }
+        public DbSet<HistoryAction> HistoryAction { get; set; }
+        public DbSet<HistoryRecord> HistoryRecord { get; set; }
 
         public DataContext()
         {
-            _ = HotelInfo.ToList();
+            //_ = Hotel.ToList();
         }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            _ = HotelInfo.ToList();
+            //_ = Hotel.ToList();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

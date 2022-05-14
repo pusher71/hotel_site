@@ -24,12 +24,12 @@ namespace hotel_site.Controllers
 
         public IActionResult Index()
         {
-            return View(_dbRepository.GetHotelInfo());
+            return View(_dbRepository.GetHotel());
         }
 
         public IActionResult SetHotelInfo()
         {
-            return View(_dbRepository.GetHotelInfo());
+            return View(_dbRepository.GetHotel());
         }
 
         [Authorize]
@@ -38,9 +38,9 @@ namespace hotel_site.Controllers
         {
             try
             {
-                HotelInfo info = new HotelInfo(1, name, description, address, phoneNumber, email);
-                _dbRepository.SetHotelInfo(info);
-                return View("Index", _dbRepository.GetHotelInfo());
+                Hotel hotel = new Hotel(1, name, description, address, phoneNumber, email);
+                _dbRepository.SetHotel(hotel);
+                return View("Index", _dbRepository.GetHotel());
             }
             catch (Exception e)
             {
