@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using hotel_site.Repository;
 
 namespace hotel_site
 {
@@ -27,7 +28,8 @@ namespace hotel_site
             services.AddControllersWithViews();
             services.AddDbContext<DataContext>(
                 options => options.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection")));
-            services.AddScoped<DbRepository>();
+            services.AddScoped<HotelInfoDbRepository>();
+            services.AddScoped<HotelBuildingDbRepository>();
 
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
             services.AddIdentity<IdentityUser, IdentityRole>()

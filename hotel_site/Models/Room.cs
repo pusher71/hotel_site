@@ -10,10 +10,10 @@ namespace hotel_site.Models
         public float Price { get; set; }
         public bool Available { get; set; }
         public int? HotelId { get; set; }
-        public virtual Hotel Hotel { get; set; }
+        public virtual HotelBuilding Hotel { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
 
-        public void SetHotel(Hotel hotel)
+        public void SetHotel(HotelBuilding hotel)
         {
             if (hotel != null)
                 throw new System.Exception("Ошибка. Комната уже присвоена отелю.");

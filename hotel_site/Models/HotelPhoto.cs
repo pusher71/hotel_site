@@ -5,9 +5,9 @@
         public int Id { get; set; }
         public byte[] Image { get; set; }
         public int? HotelId { get; set; }
-        public virtual Hotel Hotel { get; set; }
+        public virtual HotelBuilding Hotel { get; set; }
 
-        public void SetHotel(Hotel hotel)
+        public void SetHotel(HotelBuilding hotel)
         {
             if (hotel != null)
                 throw new System.Exception("Ошибка. Фотография уже присвоена отелю.");

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace hotel_site.Models
 {
-    public class Hotel
+    public class HotelBuilding
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,7 +14,7 @@ namespace hotel_site.Models
         public string Email { get; set; }
         public virtual ICollection<HotelPhoto> HotelPhotos { get; set; } = new List<HotelPhoto>();
 
-        public Hotel(int id, string name, string description, string address, string phoneNumber, string email)
+        public HotelBuilding(int id, string name, string description, string address, string phoneNumber, string email)
         {
             Id = id;
             Name = name;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using hotel_site.Models;
+using hotel_site.Repository;
 
 using Microsoft.AspNetCore.Authorization;
 
@@ -14,33 +15,38 @@ namespace hotel_site.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private DbRepository _dbRepository;
+        private IRepository<HotelInfo> _hotelInfoDb;
+        private IRepository<HotelBuilding> _hotelBuildingDb;
+        //private DbRepository _dbRepository;
 
-        public HomeController(ILogger<HomeController> logger, DbRepository dbRepository)
+        public HomeController(ILogger<HomeController> logger, HotelInfoDbRepository hotelInfoDb, HotelBuildingDbRepository hotelBuildingDb)
         {
             _logger = logger;
-            _dbRepository = dbRepository;
+            //_dbRepository = dbRepository;
+            _hotelInfoDb = hotelInfoDb;
+            _hotelBuildingDb = hotelBuildingDb;
         }
 
         public IActionResult Index()
         {
-            return View(_dbRepository.GetHotel());
+            return View(_hotelInfoDb.GetEntity(1));
         }
 
         public IActionResult SetHotelInfo()
         {
-            return View(_dbRepository.GetHotel());
+            return View(_hotelInfoDb.GetEntity(1));
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult SetHotelInfo(string name, string description, string address, string phoneNumber, string email)
+        public IActionResult SetHotelInfo(string name, string description, string phoneNumber, string email)
         {
             try
             {
-                Hotel hotel = new Hotel(1, name, description, address, phoneNumber, email);
-                _dbRepository.SetHotel(hotel);
-                return View("Index", _dbRepository.GetHotel());
+                HotelInfo hotelInfo = new HotelInfo(1, name, description, phoneNumber, email);
+                _hotelInfoDb.Delete(1);
+                _hotelInfoDb.Create(hotelInfo);
+                return Index();
             }
             catch (Exception e)
             {

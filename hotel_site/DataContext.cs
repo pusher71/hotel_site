@@ -9,7 +9,8 @@ namespace hotel_site
 {
     public class DataContext : DbContext
     {
-        public DbSet<Hotel> Hotel { get; set; }
+        public DbSet<HotelInfo> HotelInfo { get; set; }
+        public DbSet<HotelBuilding> HotelBuilding { get; set; }
         public DbSet<HotelPhoto> HotelPhoto { get; set; }
         public DbSet<Room> Room { get; set; }
         public DbSet<RoomPhoto> RoomPhoto { get; set; }
