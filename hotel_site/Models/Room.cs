@@ -8,7 +8,7 @@ namespace hotel_site.Models
         public string Number { get; set; }
         public float Square { get; set; }
         public float Price { get; set; }
-        public bool Available { get; set; }
+        public bool IsAvailable { get; set; }
         public int? HotelId { get; set; }
         public virtual HotelBuilding Hotel { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
@@ -23,10 +23,10 @@ namespace hotel_site.Models
 
         public void Book(User user)
         {
-            if (!Available || Users.Count > 0)
+            if (!IsAvailable || Users.Count > 0)
                 throw new System.Exception("Ошибка. Комната занята.");
             Users.Add(user);
-            Available = false;
+            IsAvailable = false;
         }
 
         public Room(int id, string number, float square, float price)
@@ -35,7 +35,7 @@ namespace hotel_site.Models
             Number = number;
             Square = square;
             Price = price;
-            Available = true;
+            IsAvailable = true;
         }
     }
 }

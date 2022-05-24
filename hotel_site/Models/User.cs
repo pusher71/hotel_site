@@ -18,7 +18,7 @@ namespace hotel_site.Models
         {
             if (CurrentRoom != null)
                 throw new Exception("Ошибка. Пользователь уже заселён.");
-            if (!room.Available)
+            if (!room.IsAvailable)
                 throw new Exception("Ошибка. Комната занята.");
             CurrentRoom = room;
             CurrentRoomId = room.Id;
