@@ -41,7 +41,7 @@ namespace hotel_site.Repository
         public void Create(HotelInfo entity)
         {
             if (_context.HotelInfo.Contains(entity))
-                throw new Exception("Ошибка. Данный корпус отеля уже существует.");
+                throw new Exception("Ошибка. Данный раздел информации отеля уже существует.");
             _context.HotelInfo.Add(entity);
             _context.SaveChanges();
         }
@@ -56,7 +56,7 @@ namespace hotel_site.Repository
         {
             HotelInfo entity = GetEntity(id);
             if (!_context.HotelInfo.Contains(entity))
-                throw new Exception("Ошибка. Данный корпус отеля не существует.");
+                throw new Exception("Ошибка. Данный раздел информации отеля не существует.");
             _context.HotelInfo.Remove(entity);
             _context.SaveChanges();
         }

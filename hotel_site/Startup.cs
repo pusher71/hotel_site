@@ -30,6 +30,15 @@ namespace hotel_site
                 options => options.UseNpgsql(Configuration.GetConnectionString("DatabaseConnection")));
             services.AddScoped<HotelInfoDbRepository>();
             services.AddScoped<HotelBuildingDbRepository>();
+            services.AddScoped<HotelPhotoDbRepository>();
+            services.AddScoped<RoomDbRepository>();
+            services.AddScoped<RoomPhotoDbRepository>();
+            services.AddScoped<UserDbRepository>();
+            services.AddScoped<CommentDbRepository>();
+            services.AddScoped<MessageDbRepository>();
+            services.AddScoped<ServiceDbRepository>();
+            services.AddScoped<HistoryActionDbRepository>();
+            services.AddScoped<HistoryRecordDbRepository>();
 
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
             services.AddIdentity<IdentityUser, IdentityRole>()
