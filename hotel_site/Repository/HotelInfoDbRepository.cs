@@ -63,7 +63,7 @@ namespace hotel_site.Repository
 
         public int GetNewId()
         {
-            return GetEntityList().OrderBy(k => k.Id).Last().Id + 1;
+            return GetEntityList().Count() == 0 ? 1 : GetEntityList().OrderBy(k => k.Id).Last().Id + 1;
         }
     }
 }
