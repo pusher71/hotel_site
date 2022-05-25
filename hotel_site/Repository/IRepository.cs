@@ -12,5 +12,6 @@ namespace hotel_site
         void Create(T entity); //создание объекта
         void Update(T entity); //обновление объекта
         void Delete(int id); //удаление объекта по id
+        int GetNewId(); //получить новый id, который никем не используется
     }
 }

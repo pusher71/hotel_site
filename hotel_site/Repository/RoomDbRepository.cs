@@ -48,5 +48,10 @@ namespace hotel_site.Repository
             _context.Room.Remove(entity);
             _context.SaveChanges();
         }
+
+        public int GetNewId()
+        {
+            return GetEntityList().OrderBy(k => k.Id).Last().Id + 1;
+        }
     }
 }
