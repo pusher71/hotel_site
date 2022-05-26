@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model HotelBuilding
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -6,9 +8,11 @@
     <title>Photo</title>
 </head>
 <body>
-    <div class="photo-container">
-        <img class="photo" src="~/photo/photo_1.jfif" />
-        <img class="photo" src="~/photo/photo_2.jpg" />
+    <div class="grid-photo-container">
+        @foreach (HotelPhoto hotelPhoto in Model.GetAllHotelPhotos())
+        {
+            <img class="grid-photo-item" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
+        }
     </div>
 </body>
 </html>

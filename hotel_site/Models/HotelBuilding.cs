@@ -24,6 +24,11 @@ namespace hotel_site.Models
             Email = email;
         }
 
+        public ICollection<HotelPhoto> GetAllHotelPhotos()
+        {
+            return HotelPhotos;
+        }
+
         public HotelPhoto GetHotelPhotoById(int hotelPhotoId)
         {
             return HotelPhotos.FirstOrDefault(o => o.Id == hotelPhotoId);

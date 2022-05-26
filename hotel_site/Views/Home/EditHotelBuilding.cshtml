@@ -1,0 +1,44 @@
+﻿@model HotelBuilding
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Hotel Building</title>
+</head>
+<body>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <h2>Редактировать информацию о корпусе отеля</h2>
+        <form method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label>Название</label>
+            <input type="text" name="name" value="@Model.Name" />
+            <br />
+            <label>Описание</label>
+            <input type="text" name="description" value="@Model.Description" />
+            <br />
+            <label>Адрес</label>
+            <input type="text" name="address" value="@Model.Address" />
+            <br />
+            <label>Контактный телефон</label>
+            <input type="text" name="phoneNumber" value="@Model.PhoneNumber" />
+            <br />
+            <label>E-mail</label>
+            <input type="text" name="email" value="@Model.Email" />
+            <br />
+            <input type="submit" value="Обновить" />
+        </form>
+    }
+    else
+    {
+        <h2>Требуется авторизация для редактирования информации о корпусе отеля</h2>
+    }
+
+    <a href="/home">Назад</a>
+</body>
+</html>

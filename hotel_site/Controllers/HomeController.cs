@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using hotel_site.Models;
 using hotel_site.Repository;
@@ -54,26 +57,156 @@ namespace hotel_site.Controllers
             _historyRecordDb = historyRecordDb;
         }
 
-        public IActionResult Index()
+        private HotelInfoAndBuildings GetHotelInfoAndBuildings()
         {
-            return View(_hotelInfoDb.GetEntity(1));
+            return new HotelInfoAndBuildings
+            {
+                HotelInfo = _hotelInfoDb.GetEntity(1),
+                HotelBuildings = _hotelBuildingDb.GetEntityList()
+            };
         }
 
-        public IActionResult SetHotelInfo()
+        public IActionResult Index()
+        {
+            return View(GetHotelInfoAndBuildings());
+        }
+
+        public IActionResult EditHotelInfo()
         {
             return View(_hotelInfoDb.GetEntity(1));
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult SetHotelInfo(string name, string description, string phoneNumber, string email)
+        public IActionResult EditHotelInfo(string name, string description, string phoneNumber, string email)
         {
             try
             {
-                HotelInfo hotelInfo = new HotelInfo(1, name, description, phoneNumber, email);
-                _hotelInfoDb.Delete(1);
-                _hotelInfoDb.Create(hotelInfo);
+                HotelInfo hotelInfo = _hotelInfoDb.GetEntity(1);
+                hotelInfo.Name = name;
+                hotelInfo.Description = description;
+                hotelInfo.PhoneNumber = phoneNumber;
+                hotelInfo.Email = email;
+                _hotelInfoDb.Update(hotelInfo);
+                return View("Index", GetHotelInfoAndBuildings());
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult AddHotelBuilding()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddHotelBuilding(string name, string description, string address, string phoneNumber, string email)
+        {
+            try
+            {
+                HotelBuilding hotelBuilding = new HotelBuilding(_hotelBuildingDb.GetNewId(), name, description, address, phoneNumber, email);
+                _hotelBuildingDb.Create(hotelBuilding);
                 return Index();
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult EditHotelBuilding(int id)
+        {
+            return View(_hotelBuildingDb.GetEntity(id));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult EditHotelBuilding(int id, string name, string description, string address, string phoneNumber, string email)
+        {
+            try
+            {
+                HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(id);
+                hotelBuilding.Name = name;
+                hotelBuilding.Description = description;
+                hotelBuilding.Address = address;
+                hotelBuilding.PhoneNumber = phoneNumber;
+                hotelBuilding.Email = email;
+                _hotelBuildingDb.Update(hotelBuilding);
+                return View("Index", GetHotelInfoAndBuildings());
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult DeleteHotelBuilding(int id)
+        {
+            return View(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult DeleteHotelBuilding(int id, bool confirm)
+        {
+            try
+            {
+                _hotelBuildingDb.Delete(id);
+                return View("Index", GetHotelInfoAndBuildings());
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult AddHotelPhoto(int hotelBuildingId)
+        {
+            return View(hotelBuildingId);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddHotelPhoto(int hotelBuildingId, IFormFile uploadImage)
+        {
+            try
+            {
+                //перевести переданный файл в массив байтов
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(uploadImage.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)uploadImage.Length);
+                }
+
+                HotelPhoto hotelPhoto = new HotelPhoto(_hotelPhotoDb.GetNewId(), imageData); //созданная фотография отеля
+                HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(hotelBuildingId); //связанный корпус отеля
+
+                hotelPhoto.SetHotel(hotelBuilding);
+                _hotelPhotoDb.Create(hotelPhoto);
+                return View("Index", GetHotelInfoAndBuildings());
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult DeleteHotelPhoto(int id)
+        {
+            return View(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult DeleteHotelPhoto(int id, bool confirm)
+        {
+            try
+            {
+                _hotelPhotoDb.Delete(id);
+                return View("Index", GetHotelInfoAndBuildings());
             }
             catch (Exception e)
             {
@@ -88,7 +221,7 @@ namespace hotel_site.Controllers
 
         public IActionResult Photo()
         {
-            return View();
+            return View(_hotelBuildingDb.GetEntity(1));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
