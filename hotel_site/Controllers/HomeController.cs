@@ -96,6 +96,11 @@ namespace hotel_site.Controllers
             }
         }
 
+        public IActionResult HotelBuilding(int id)
+        {
+            return View(_hotelBuildingDb.GetEntity(id));
+        }
+
         public IActionResult AddHotelBuilding()
         {
             return View();

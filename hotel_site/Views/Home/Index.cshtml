@@ -22,28 +22,12 @@
         <div class="grid-item">
             <h3>@hotelBuilding.Name</h3>
             <p>@hotelBuilding.Description</p>
-            <p> </p>
-            <div class="grid-photo-container">
-                @foreach (HotelPhoto hotelPhoto in hotelBuilding.GetAllHotelPhotos())
-                {
-                    <div class="grid-photo-item">
-                        <img class="grid-photo-image" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
-                        @if (@User.Identity != null && @User.Identity.IsAuthenticated)
-                        {
-                            <a class="grid-photo-delete-link" asp-area="" asp-controller="Home" asp-action="DeleteHotelPhoto" asp-route-id="@hotelPhoto.Id">Удалить фотографию</a>
-                        }
-                    </div>
-                }
-            </div>
-            <p> </p>
             <p>Адрес: @hotelBuilding.Address</p>
             <p>Контактный телефон: @hotelBuilding.PhoneNumber</p>
             <p>E-mail: @hotelBuilding.Email</p>
+            <a asp-area="" asp-controller="Home" asp-action="HotelBuilding" asp-route-id="@hotelBuilding.Id">Подробнее...</a>
             @if (@User.Identity != null && @User.Identity.IsAuthenticated)
             {
-                <a asp-area="" asp-controller="Home" asp-action="EditHotelBuilding" asp-route-id="@hotelBuilding.Id">Редактировать информацию</a>
-                <br />
-                <a asp-area="" asp-controller="Home" asp-action="AddHotelPhoto" asp-route-hotelBuildingId="@hotelBuilding.Id">Добавить фотографию</a>
                 <br />
                 <a asp-area="" asp-controller="Home" asp-action="DeleteHotelBuilding" asp-route-id="@hotelBuilding.Id">Удалить корпус</a>
             }
@@ -52,7 +36,7 @@
     </div>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <a asp-area="" asp-controller="Home" asp-action="AddHotelBuilding">Добавить корпус отеля</a>
+        <a asp-area="" asp-controller="Home" asp-action="AddHotelBuilding">Добавить корпус</a>
     }
 </body>
 </html>
