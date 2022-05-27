@@ -9,33 +9,31 @@
 <body>
     <h1>@Model.Name</h1>
     <p>@Model.Description</p>
-    <p> </p>
-    <div class="grid-photo-container">
-        @foreach (HotelPhoto hotelPhoto in Model.GetAllHotelPhotos())
-        {
-            <div class="grid-photo-item">
-                <img class="grid-photo-image" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
-                @if (@User.Identity != null && @User.Identity.IsAuthenticated)
-                {
-                    <a class="grid-photo-delete-link" asp-area="" asp-controller="HotelBuilding" asp-action="DeleteHotelPhoto" asp-route-id="@hotelPhoto.Id">Удалить фотографию</a>
-                }
-            </div>
-        }
-    </div>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
-    {
-        <a asp-area="" asp-controller="HotelBuilding" asp-action="AddHotelPhoto" asp-route-hotelBuildingId="@Model.Id">Добавить фотографию</a>
-    }
-    <p> </p>
     <p>Адрес: @Model.Address</p>
     <p>Контактный телефон: @Model.PhoneNumber</p>
     <p>E-mail: @Model.Email</p>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
         <a asp-area="" asp-controller="HotelBuilding" asp-action="EditHotelBuilding" asp-route-id="@Model.Id">Редактировать информацию</a>
-        <br />
     }
-    <p> </p>
+    <br />
+    <div class="grid-photo-container">
+        @foreach (HotelPhoto hotelPhoto in Model.HotelPhotos)
+        {
+            <div class="grid-photo-item">
+                <img class="grid-photo-image" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
+                @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+                {
+                    <a class="grid-photo-delete-link" asp-area="" asp-controller="HotelPhoto" asp-action="DeleteHotelPhoto" asp-route-id="@hotelPhoto.Id">Удалить фотографию</a>
+                }
+            </div>
+        }
+    </div>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <a asp-area="" asp-controller="HotelPhoto" asp-action="AddHotelPhoto" asp-route-hotelBuildingId="@Model.Id">Добавить фотографию</a>
+    }
+    <br />
     <h2>Номера:</h2>
     <table border=1>
         <tr>
@@ -55,7 +53,7 @@
                 <td>@room.Floor </td>
                 <td>@room.Square</td>
                 <td>@room.Price</td>
-                <td>@room.IsAvailable</td>
+                <td>@(room.IsAvailable ? "Да" : "Нет")</td>
                 <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@room.Id">Подробнее...</a></td>
                 @if (@User.Identity != null && @User.Identity.IsAuthenticated)
                 {
@@ -71,10 +69,9 @@
     </table>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <a asp-area="" asp-controller="Room" asp-action="AddRoom" asp-route-hotelBuildingId="@Model.Id">Добавить комнату</a>
-        <br />
+        <a asp-area="" asp-controller="Room" asp-action="AddRoom" asp-route-hotelBuildingId="@Model.Id">Добавить номер</a>
     }
-
+    <br />
     <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
 </body>
 </html>

@@ -13,7 +13,7 @@
 <body>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <h2>Вы уверены, что хотите удалить фотографию отеля?</h2>
+        <h2>Вы уверены, что хотите удалить фотографию номера?</h2>
         <form method="post">
             <input type="hidden" name="id" value="@Model" />
             <input type="submit" value="Удалить" />
@@ -21,7 +21,7 @@
     }
     else
     {
-        <h2>Требуется авторизация для удаления фотографии отеля</h2>
+        <h2>Требуется авторизация для удаления фотографии номера</h2>
     }
 
     <a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@Model">Назад</a>

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="grid-photo-container">
-        @foreach (HotelPhoto hotelPhoto in Model.GetAllHotelPhotos())
+        @foreach (HotelPhoto hotelPhoto in Model.HotelPhotos)
         {
             <img class="grid-photo-item" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
         }

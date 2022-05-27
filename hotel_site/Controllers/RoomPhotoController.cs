@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace hotel_site.Controllers
 {
-    public class RoomController : Controller
+    public class RoomPhotoController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private IRepository<HotelInfo> _hotelInfoDb;
@@ -31,7 +31,7 @@ namespace hotel_site.Controllers
         private IRepository<HistoryAction> _historyActionDb;
         private IRepository<HistoryRecord> _historyRecordDb;
 
-        public RoomController(ILogger<HomeController> logger,
+        public RoomPhotoController(ILogger<HomeController> logger,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,
             HotelPhotoDbRepository hotelPhotoDb,
@@ -58,28 +58,30 @@ namespace hotel_site.Controllers
             _historyRecordDb = historyRecordDb;
         }
 
-        public IActionResult Index(int id)
-        {
-            return View(_roomDb.GetEntity(id));
-        }
-
-        public IActionResult AddRoom(int hotelBuildingId)
+        public IActionResult AddRoomPhoto(int hotelBuildingId)
         {
             return View(hotelBuildingId);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddRoom(int hotelBuildingId, string number, string floor, float square, float price, string isAvailable)
+        public IActionResult AddRoomPhoto(int roomId, IFormFile uploadImage)
         {
             try
             {
-                Room room = new Room(_roomDb.GetNewId(), number, floor, square, price, isAvailable == "on"); //созданный номер
-                HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(hotelBuildingId); //связанный корпус отеля
+                //перевести переданный файл в массив байтов
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(uploadImage.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)uploadImage.Length);
+                }
 
-                room.SetHotel(hotelBuilding);
-                _roomDb.Create(room);
-                return RedirectToAction("Index", "HotelBuilding", new { id = room.HotelBuildingId });
+                RoomPhoto roomPhoto = new RoomPhoto(_roomPhotoDb.GetNewId(), imageData); //созданная фотография номера
+                Room room = _roomDb.GetEntity(roomId); //связанный номер
+
+                roomPhoto.SetRoom(room);
+                _roomPhotoDb.Create(roomPhoto);
+                return RedirectToAction("Index", "Room", new { id = roomPhoto.RoomId });
             }
             catch (Exception e)
             {
@@ -87,68 +89,20 @@ namespace hotel_site.Controllers
             }
         }
 
-        public IActionResult EditRoom(int id)
-        {
-            return View(_roomDb.GetEntity(id));
-        }
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult EditRoom(int id, string number, string floor, float square, float price, string isAvailable)
-        {
-            try
-            {
-                Room room = _roomDb.GetEntity(id);
-                room.Number = number;
-                room.Floor = floor;
-                room.Square = square;
-                room.Price = price;
-                room.IsAvailable = isAvailable == "on";
-                _roomDb.Update(room);
-                return RedirectToAction("Index", new { id = room.Id });
-            }
-            catch (Exception e)
-            {
-                return View("ErrorPage", e.Message);
-            }
-        }
-
-        public IActionResult RoomAvailableChange(int id)
+        public IActionResult DeleteRoomPhoto(int id)
         {
             return View(id);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult RoomAvailableChange(int id, bool confirm)
+        public IActionResult DeleteRoomPhoto(int id, bool confirm)
         {
             try
             {
-                Room room = _roomDb.GetEntity(id);
-                room.IsAvailable = !room.IsAvailable;
-                _roomDb.Update(room);
-                return RedirectToAction("Index", "HotelBuilding", new { id = room.HotelBuildingId });
-            }
-            catch (Exception e)
-            {
-                return View("ErrorPage", e.Message);
-            }
-        }
-
-        public IActionResult DeleteRoom(int id)
-        {
-            return View(id);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult DeleteRoom(int id, bool confirm)
-        {
-            try
-            {
-                Room room = _roomDb.GetEntity(id);
-                _roomDb.Delete(id);
-                return RedirectToAction("Index", "HotelBuilding", new { id = room.HotelBuildingId });
+                RoomPhoto roomPhoto = _roomPhotoDb.GetEntity(id);
+                _roomPhotoDb.Delete(id);
+                return RedirectToAction("Index", "Room", new { id = roomPhoto.RoomId });
             }
             catch (Exception e)
             {

@@ -1,0 +1,44 @@
+﻿@model Room
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Room</title>
+</head>
+<body>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <h2>Редактировать информацию о номере</h2>
+        <form method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label>Номер</label>
+            <input type="text" name="number" value="@Model.Number" />
+            <br />
+            <label>Этаж</label>
+            <input type="text" name="floor" value="@Model.Floor" />
+            <br />
+            <label>Площадь</label>
+            <input type="text" name="square" value="@Model.Square" />
+            <br />
+            <label>Цена</label>
+            <input type="text" name="price" value="@Model.Price" />
+            <br />
+            <label>Доступна</label>
+            <input type="checkbox" name="isAvailable" checked="@(Model.IsAvailable ? true : false)" />
+            <br />
+            <input type="submit" value="Обновить" />
+        </form>
+    }
+    else
+    {
+        <h2>Требуется авторизация для редактирования информации о номере</h2>
+    }
+
+    <a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@Model.Id">Назад</a>
+</body>
+</html>

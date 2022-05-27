@@ -102,7 +102,7 @@ namespace hotel_site.Controllers
                 hotelBuilding.PhoneNumber = phoneNumber;
                 hotelBuilding.Email = email;
                 _hotelBuildingDb.Update(hotelBuilding);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = hotelBuilding.Id });
             }
             catch (Exception e)
             {
@@ -122,59 +122,7 @@ namespace hotel_site.Controllers
             try
             {
                 _hotelBuildingDb.Delete(id);
-                return RedirectToAction("Index");
-            }
-            catch (Exception e)
-            {
-                return View("ErrorPage", e.Message);
-            }
-        }
-
-        public IActionResult AddHotelPhoto(int hotelBuildingId)
-        {
-            return View(hotelBuildingId);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult AddHotelPhoto(int hotelBuildingId, IFormFile uploadImage)
-        {
-            try
-            {
-                //перевести переданный файл в массив байтов
-                byte[] imageData = null;
-                using (var binaryReader = new BinaryReader(uploadImage.OpenReadStream()))
-                {
-                    imageData = binaryReader.ReadBytes((int)uploadImage.Length);
-                }
-
-                HotelPhoto hotelPhoto = new HotelPhoto(_hotelPhotoDb.GetNewId(), imageData); //созданная фотография отеля
-                HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(hotelBuildingId); //связанный корпус отеля
-
-                hotelPhoto.SetHotel(hotelBuilding);
-                _hotelPhotoDb.Create(hotelPhoto);
-                return RedirectToAction("HotelBuilding", new { id = hotelPhoto.HotelBuildingId });
-            }
-            catch (Exception e)
-            {
-                return View("ErrorPage", e.Message);
-            }
-        }
-
-        public IActionResult DeleteHotelPhoto(int id)
-        {
-            return View(id);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult DeleteHotelPhoto(int id, bool confirm)
-        {
-            try
-            {
-                HotelPhoto hotelPhoto = _hotelPhotoDb.GetEntity(id);
-                _hotelPhotoDb.Delete(id);
-                return RedirectToAction("HotelBuilding", new { id = hotelPhoto.HotelBuildingId });
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {

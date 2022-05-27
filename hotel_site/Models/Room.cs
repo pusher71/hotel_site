@@ -13,6 +13,7 @@ namespace hotel_site.Models
         public int? HotelBuildingId { get; set; }
         public virtual HotelBuilding HotelBuilding { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<RoomPhoto> RoomPhotos { get; set; } = new List<RoomPhoto>();
 
         public Room(int id, string number, string floor, float square, float price, bool isAvailable)
         {
