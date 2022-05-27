@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace hotel_site.Models
+namespace hotel_site.Models.ViewModels
 {
     public class HotelInfoAndBuildings
     {

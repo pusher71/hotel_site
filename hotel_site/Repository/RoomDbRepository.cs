@@ -14,6 +14,27 @@ namespace hotel_site.Repository
         public RoomDbRepository(DataContext dataContext)
         {
             _context = dataContext;
+            if (_context.Room.Any()) return;
+
+            Room room141 = new Room(6, "14-1", "14", 15, 15, true);
+            Room room142 = new Room(2, "14-2", "14", 30, 25, false);
+            Room room143 = new Room(5, "14-3", "14", 45, 40, true);
+
+            Room room131 = new Room(3, "13-1", "13", 15, 15, false);
+            Room room132 = new Room(1, "13-2", "13", 30, 25, true);
+            Room room133 = new Room(4, "13-3", "13", 45, 40, false);
+            Room room134 = new Room(7, "13-4", "13", 5, 10, true);
+
+            room141.HotelBuildingId = 1;
+            room142.HotelBuildingId = 1;
+            room143.HotelBuildingId = 1;
+            room131.HotelBuildingId = 1;
+            room132.HotelBuildingId = 1;
+            room133.HotelBuildingId = 1;
+            room134.HotelBuildingId = 1;
+
+            _context.Room.AddRange(room132, room142, room131, room133, room143, room141, room134);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Room> GetEntityList()

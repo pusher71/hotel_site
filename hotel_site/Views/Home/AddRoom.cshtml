@@ -1,0 +1,44 @@
+﻿@model int
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Room</title>
+</head>
+<body>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <h2>Добавить номер</h2>
+        <form method="post">
+            <input type="hidden" name="hotelBuildingId" value="@Model" />
+            <label>Номер</label>
+            <input type="text" name="number" />
+            <br />
+            <label>Этаж</label>
+            <input type="text" name="floor" />
+            <br />
+            <label>Площадь</label>
+            <input type="text" name="square" />
+            <br />
+            <label>Цена</label>
+            <input type="text" name="price" />
+            <br />
+            <label>Доступна</label>
+            <input type="checkbox" name="isAvailable" />
+            <br />
+            <input type="submit" value="Добавить" />
+        </form>
+    }
+    else
+    {
+        <h2>Требуется авторизация для добавления номера</h2>
+    }
+
+    <a href="/Home">Вернуться на главную страницу</a>
+</body>
+</html>

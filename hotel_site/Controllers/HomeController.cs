@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using hotel_site.Models;
+using hotel_site.Models.ViewModels;
 using hotel_site.Repository;
 
 using Microsoft.AspNetCore.Authorization;
@@ -114,7 +115,7 @@ namespace hotel_site.Controllers
             {
                 HotelBuilding hotelBuilding = new HotelBuilding(_hotelBuildingDb.GetNewId(), name, description, address, phoneNumber, email);
                 _hotelBuildingDb.Create(hotelBuilding);
-                return Index();
+                return View("Index", GetHotelInfoAndBuildings());
             }
             catch (Exception e)
             {
@@ -191,7 +192,7 @@ namespace hotel_site.Controllers
 
                 hotelPhoto.SetHotel(hotelBuilding);
                 _hotelPhotoDb.Create(hotelPhoto);
-                return View("Index", GetHotelInfoAndBuildings());
+                return View("HotelBuilding", _hotelBuildingDb.GetEntity(hotelPhoto.HotelBuildingId ?? default));
             }
             catch (Exception e)
             {
@@ -210,8 +211,76 @@ namespace hotel_site.Controllers
         {
             try
             {
+                HotelPhoto hotelPhoto = _hotelPhotoDb.GetEntity(id);
                 _hotelPhotoDb.Delete(id);
-                return View("Index", GetHotelInfoAndBuildings());
+                return View("HotelBuilding", _hotelBuildingDb.GetEntity(hotelPhoto.HotelBuildingId ?? default));
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult AddRoom(int hotelBuildingId)
+        {
+            return View(hotelBuildingId);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddRoom(int hotelBuildingId, string number, string floor, float square, float price, string isAvailable)
+        {
+            try
+            {
+                Room room = new Room(_roomDb.GetNewId(), number, floor, square, price, isAvailable == "on"); //созданный номер
+                HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(hotelBuildingId); //связанный корпус отеля
+
+                room.SetHotel(hotelBuilding);
+                _roomDb.Create(room);
+                return View("HotelBuilding", _hotelBuildingDb.GetEntity(room.HotelBuildingId ?? default));
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult RoomAvailableChange(int id)
+        {
+            return View(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult RoomAvailableChange(int id, bool confirm)
+        {
+            try
+            {
+                Room room = _roomDb.GetEntity(id);
+                room.IsAvailable = !room.IsAvailable;
+                _roomDb.Update(room);
+                return View("HotelBuilding", _hotelBuildingDb.GetEntity(room.HotelBuildingId ?? default));
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult DeleteRoom(int id)
+        {
+            return View(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult DeleteRoom(int id, bool confirm)
+        {
+            try
+            {
+                Room room = _roomDb.GetEntity(id);
+                _roomDb.Delete(id);
+                return View("HotelBuilding", _hotelBuildingDb.GetEntity(room.HotelBuildingId ?? default));
             }
             catch (Exception e)
             {

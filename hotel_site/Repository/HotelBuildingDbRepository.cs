@@ -36,10 +36,7 @@ namespace hotel_site.Repository
                 "8-909-998-87-03",
                 "eastwater3@yandex.ru");
 
-            _context.HotelBuilding.Add(hotelBuilding1);
-            _context.HotelBuilding.Add(hotelBuilding2);
-            _context.HotelBuilding.Add(hotelBuilding3);
-
+            _context.HotelBuilding.AddRange(hotelBuilding1, hotelBuilding2, hotelBuilding3);
             _context.SaveChanges();
         }
 

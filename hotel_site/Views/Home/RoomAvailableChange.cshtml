@@ -1,0 +1,29 @@
+﻿@model int
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Room</title>
+</head>
+<body>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <h2>Вы уверены, что хотите сменить доступность номера?</h2>
+        <form method="post">
+            <input type="hidden" name="id" value="@Model" />
+            <input type="submit" value="Сменить" />
+        </form>
+    }
+    else
+    {
+        <h2>Требуется авторизация для смены доступности номера</h2>
+    }
+
+    <a href="/Home">Вернуться на главную страницу</a>
+</body>
+</html>

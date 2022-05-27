@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using hotel_site;
@@ -9,9 +10,10 @@ using hotel_site;
 namespace hotel_site.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220526014855_RoomFloor")]
+    partial class RoomFloor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,7 +209,7 @@ namespace hotel_site.Migrations
                     b.Property<string>("Floor")
                         .HasColumnType("text");
 
-                    b.Property<int?>("HotelBuildingId")
+                    b.Property<int?>("HotelId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsAvailable")
@@ -224,7 +226,7 @@ namespace hotel_site.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HotelBuildingId");
+                    b.HasIndex("HotelId");
 
                     b.ToTable("Room");
                 });
@@ -358,11 +360,11 @@ namespace hotel_site.Migrations
 
             modelBuilder.Entity("hotel_site.Models.Room", b =>
                 {
-                    b.HasOne("hotel_site.Models.HotelBuilding", "HotelBuilding")
+                    b.HasOne("hotel_site.Models.HotelBuilding", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelBuildingId");
+                        .HasForeignKey("HotelId");
 
-                    b.Navigation("HotelBuilding");
+                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("hotel_site.Models.RoomPhoto", b =>

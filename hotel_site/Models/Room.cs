@@ -6,19 +6,20 @@ namespace hotel_site.Models
     {
         public int Id { get; set; }
         public string Number { get; set; }
+        public string Floor { get; set; }
         public float Square { get; set; }
         public float Price { get; set; }
         public bool IsAvailable { get; set; }
-        public int? HotelId { get; set; }
-        public virtual HotelBuilding Hotel { get; set; }
+        public int? HotelBuildingId { get; set; }
+        public virtual HotelBuilding HotelBuilding { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
 
         public void SetHotel(HotelBuilding hotel)
         {
-            if (hotel != null)
+            if (HotelBuilding != null)
                 throw new System.Exception("Ошибка. Комната уже присвоена отелю.");
-            Hotel = hotel;
-            HotelId = hotel.Id;
+            HotelBuilding = hotel;
+            HotelBuildingId = hotel.Id;
         }
 
         public void Book(User user)
@@ -29,13 +30,14 @@ namespace hotel_site.Models
             IsAvailable = false;
         }
 
-        public Room(int id, string number, float square, float price)
+        public Room(int id, string number, string floor, float square, float price, bool isAvailable)
         {
             Id = id;
             Number = number;
+            Floor = floor;
             Square = square;
             Price = price;
-            IsAvailable = true;
+            IsAvailable = isAvailable;
         }
     }
 }

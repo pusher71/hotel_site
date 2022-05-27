@@ -35,6 +35,45 @@
         <a asp-area="" asp-controller="Home" asp-action="EditHotelBuilding" asp-route-id="@Model.Id">Редактировать информацию</a>
         <br />
     }
+    <p> </p>
+    <h2>Номера:</h2>
+    <table border=1>
+        <tr>
+            <th>Номер</th>
+            <th>Этаж</th>
+            <th>Площадь</th>
+            <th>Цена</th>
+            <th>Доступна</th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        @foreach (Room room in Model.Rooms)
+        {
+            <tr>
+                <td>@room.Number</td>
+                <td>@room.Floor </td>
+                <td>@room.Square</td>
+                <td>@room.Price</td>
+                <td>@room.IsAvailable</td>
+                <td><a asp-area="" asp-controller="Home" asp-action="Room" asp-route-id="@room.Id">Подробнее...</a></td>
+                @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+                {
+                    <td><a asp-area="" asp-controller="Home" asp-action="RoomAvailableChange" asp-route-id="@room.Id">Сменить доступность</a></td>
+                    <td><a asp-area="" asp-controller="Home" asp-action="DeleteRoom" asp-route-id="@room.Id">Удалить</a></td>
+                }
+                else
+                {
+                    <td>Требуется авторизация для смены доступности или удаления</td>
+                }
+            </tr>
+        }
+    </table>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <a asp-area="" asp-controller="Home" asp-action="AddRoom" asp-route-hotelBuildingId="@Model.Id">Добавить комнату</a>
+        <br />
+    }
 
     <a href="/Home">Вернуться на главную страницу</a>
 </body>

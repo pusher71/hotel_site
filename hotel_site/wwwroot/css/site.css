@@ -111,3 +111,13 @@ body {
     font-weight: bold;
     text-shadow: 1px 1px 1px white;
 }
+
+table {
+    width: 100%;
+}
+
+td {
+    border: 1px solid #000;
+    height: 1em;
+    text-align: center;
+}
