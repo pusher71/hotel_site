@@ -10,6 +10,13 @@
         public int? UserToId { get; set; }
         public virtual User UserTo { get; set; }
 
+        public Message(int id, string text, long timestamp)
+        {
+            Id = id;
+            Text = text;
+            Timestamp = timestamp;
+        }
+
         public void SetUsers(User userFrom, User userTo)
         {
             if (UserFrom != null || UserTo != null)
@@ -18,13 +25,6 @@
             UserFromId = userFrom.Id;
             UserTo = userTo;
             UserToId = userTo.Id;
-        }
-
-        public Message(int id, string text, long timestamp)
-        {
-            Id = id;
-            Text = text;
-            Timestamp = timestamp;
         }
     }
 }

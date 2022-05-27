@@ -14,6 +14,14 @@ namespace hotel_site.Models
         public DateTime DateLeave { get; set; }
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
+        public User(int id, string firstName, string lastName, string phoneNumber)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+        }
+
         public void BookRoom(Room room, DateTime dateLeave)
         {
             if (CurrentRoom != null)
@@ -24,14 +32,6 @@ namespace hotel_site.Models
             CurrentRoomId = room.Id;
             CurrentRoom.Book(this);
             DateLeave = dateLeave;
-        }
-
-        public User(int id, string firstName, string lastName, string phoneNumber)
-        {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            PhoneNumber = phoneNumber;
         }
     }
 }

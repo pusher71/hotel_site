@@ -25,27 +25,5 @@ namespace hotel_site.Models
             PhoneNumber = phoneNumber;
             Email = email;
         }
-
-        public ICollection<HotelPhoto> GetAllHotelPhotos()
-        {
-            return HotelPhotos;
-        }
-
-        public HotelPhoto GetHotelPhotoById(int hotelPhotoId)
-        {
-            return HotelPhotos.FirstOrDefault(o => o.Id == hotelPhotoId);
-        }
-
-        public void AddHotelPhoto(HotelPhoto hotelPhoto)
-        {
-            if (HotelPhotos.Contains(hotelPhoto))
-                throw new Exception("Ошибка. Данная фотография уже существует.");
-            HotelPhotos.Add(hotelPhoto);
-        }
-
-        public void DeleteHotelPhotoById(int hotelPhotoId)
-        {
-            HotelPhotos.Remove(GetHotelPhotoById(hotelPhotoId));
-        }
     }
 }

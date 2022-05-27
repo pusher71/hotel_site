@@ -14,6 +14,16 @@ namespace hotel_site.Models
         public virtual HotelBuilding HotelBuilding { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
 
+        public Room(int id, string number, string floor, float square, float price, bool isAvailable)
+        {
+            Id = id;
+            Number = number;
+            Floor = floor;
+            Square = square;
+            Price = price;
+            IsAvailable = isAvailable;
+        }
+
         public void SetHotel(HotelBuilding hotel)
         {
             if (HotelBuilding != null)
@@ -28,16 +38,6 @@ namespace hotel_site.Models
                 throw new System.Exception("Ошибка. Комната занята.");
             Users.Add(user);
             IsAvailable = false;
-        }
-
-        public Room(int id, string number, string floor, float square, float price, bool isAvailable)
-        {
-            Id = id;
-            Number = number;
-            Floor = floor;
-            Square = square;
-            Price = price;
-            IsAvailable = isAvailable;
         }
     }
 }
