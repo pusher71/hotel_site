@@ -25,18 +25,18 @@
             <p>Адрес: @hotelBuilding.Address</p>
             <p>Контактный телефон: @hotelBuilding.PhoneNumber</p>
             <p>E-mail: @hotelBuilding.Email</p>
-            <a asp-area="" asp-controller="Home" asp-action="HotelBuilding" asp-route-id="@hotelBuilding.Id">Подробнее...</a>
+            <a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@hotelBuilding.Id">Подробнее...</a>
             @if (@User.Identity != null && @User.Identity.IsAuthenticated)
             {
                 <br />
-                <a asp-area="" asp-controller="Home" asp-action="DeleteHotelBuilding" asp-route-id="@hotelBuilding.Id">Удалить корпус</a>
+                <a asp-area="" asp-controller="HotelBuilding" asp-action="DeleteHotelBuilding" asp-route-id="@hotelBuilding.Id">Удалить корпус</a>
             }
         </div>
         }
     </div>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <a asp-area="" asp-controller="Home" asp-action="AddHotelBuilding">Добавить корпус</a>
+        <a asp-area="" asp-controller="HotelBuilding" asp-action="AddHotelBuilding">Добавить корпус</a>
     }
 </body>
 </html>

@@ -17,14 +17,14 @@
                 <img class="grid-photo-image" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
                 @if (@User.Identity != null && @User.Identity.IsAuthenticated)
                 {
-                    <a class="grid-photo-delete-link" asp-area="" asp-controller="Home" asp-action="DeleteHotelPhoto" asp-route-id="@hotelPhoto.Id">Удалить фотографию</a>
+                    <a class="grid-photo-delete-link" asp-area="" asp-controller="HotelBuilding" asp-action="DeleteHotelPhoto" asp-route-id="@hotelPhoto.Id">Удалить фотографию</a>
                 }
             </div>
         }
     </div>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <a asp-area="" asp-controller="Home" asp-action="AddHotelPhoto" asp-route-hotelBuildingId="@Model.Id">Добавить фотографию</a>
+        <a asp-area="" asp-controller="HotelBuilding" asp-action="AddHotelPhoto" asp-route-hotelBuildingId="@Model.Id">Добавить фотографию</a>
     }
     <p> </p>
     <p>Адрес: @Model.Address</p>
@@ -32,7 +32,7 @@
     <p>E-mail: @Model.Email</p>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <a asp-area="" asp-controller="Home" asp-action="EditHotelBuilding" asp-route-id="@Model.Id">Редактировать информацию</a>
+        <a asp-area="" asp-controller="HotelBuilding" asp-action="EditHotelBuilding" asp-route-id="@Model.Id">Редактировать информацию</a>
         <br />
     }
     <p> </p>
@@ -56,11 +56,11 @@
                 <td>@room.Square</td>
                 <td>@room.Price</td>
                 <td>@room.IsAvailable</td>
-                <td><a asp-area="" asp-controller="Home" asp-action="Room" asp-route-id="@room.Id">Подробнее...</a></td>
+                <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@room.Id">Подробнее...</a></td>
                 @if (@User.Identity != null && @User.Identity.IsAuthenticated)
                 {
-                    <td><a asp-area="" asp-controller="Home" asp-action="RoomAvailableChange" asp-route-id="@room.Id">Сменить доступность</a></td>
-                    <td><a asp-area="" asp-controller="Home" asp-action="DeleteRoom" asp-route-id="@room.Id">Удалить</a></td>
+                    <td><a asp-area="" asp-controller="Room" asp-action="RoomAvailableChange" asp-route-id="@room.Id">Сменить доступность</a></td>
+                    <td><a asp-area="" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id">Удалить</a></td>
                 }
                 else
                 {
@@ -71,10 +71,10 @@
     </table>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <a asp-area="" asp-controller="Home" asp-action="AddRoom" asp-route-hotelBuildingId="@Model.Id">Добавить комнату</a>
+        <a asp-area="" asp-controller="Room" asp-action="AddRoom" asp-route-hotelBuildingId="@Model.Id">Добавить комнату</a>
         <br />
     }
 
-    <a href="/Home">Вернуться на главную страницу</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
 </body>
 </html>

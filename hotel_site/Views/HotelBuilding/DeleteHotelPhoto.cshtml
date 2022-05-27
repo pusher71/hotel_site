@@ -8,12 +8,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Room</title>
+    <title>Hotel Photo</title>
 </head>
 <body>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <h2>Вы уверены, что хотите удалить номер?</h2>
+        <h2>Вы уверены, что хотите удалить фотографию отеля?</h2>
         <form method="post">
             <input type="hidden" name="id" value="@Model" />
             <input type="submit" value="Удалить" />
@@ -21,9 +21,9 @@
     }
     else
     {
-        <h2>Требуется авторизация для удаления номера</h2>
+        <h2>Требуется авторизация для удаления фотографии отеля</h2>
     }
 
-    <a href="/Home">Вернуться на главную страницу</a>
+    <a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@Model">Назад</a>
 </body>
 </html>

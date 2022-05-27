@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace hotel_site.Controllers
 {
-    public class HomeController : Controller
+    public class RoomController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private IRepository<HotelInfo> _hotelInfoDb;
@@ -31,7 +31,7 @@ namespace hotel_site.Controllers
         private IRepository<HistoryAction> _historyActionDb;
         private IRepository<HistoryRecord> _historyRecordDb;
 
-        public HomeController(ILogger<HomeController> logger,
+        public RoomController(ILogger<HomeController> logger,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,
             HotelPhotoDbRepository hotelPhotoDb,
@@ -58,38 +58,28 @@ namespace hotel_site.Controllers
             _historyRecordDb = historyRecordDb;
         }
 
-        private HotelInfoAndBuildings GetHotelInfoAndBuildings()
+        public IActionResult Index(int id)
         {
-            return new HotelInfoAndBuildings
-            {
-                HotelInfo = _hotelInfoDb.GetEntity(1),
-                HotelBuildings = _hotelBuildingDb.GetEntityList()
-            };
+            return View(_roomDb.GetEntity(id));
         }
 
-        public IActionResult Index()
+        public IActionResult AddRoom(int hotelBuildingId)
         {
-            return View(GetHotelInfoAndBuildings());
-        }
-
-        public IActionResult EditHotelInfo()
-        {
-            return View(_hotelInfoDb.GetEntity(1));
+            return View(hotelBuildingId);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult EditHotelInfo(string name, string description, string phoneNumber, string email)
+        public IActionResult AddRoom(int hotelBuildingId, string number, string floor, float square, float price, string isAvailable)
         {
             try
             {
-                HotelInfo hotelInfo = _hotelInfoDb.GetEntity(1);
-                hotelInfo.Name = name;
-                hotelInfo.Description = description;
-                hotelInfo.PhoneNumber = phoneNumber;
-                hotelInfo.Email = email;
-                _hotelInfoDb.Update(hotelInfo);
-                return RedirectToAction("Index");
+                Room room = new Room(_roomDb.GetNewId(), number, floor, square, price, isAvailable == "on"); //созданный номер
+                HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(hotelBuildingId); //связанный корпус отеля
+
+                room.SetHotel(hotelBuilding);
+                _roomDb.Create(room);
+                return RedirectToAction("HotelBuilding", new { id = room.HotelBuildingId });
             }
             catch (Exception e)
             {
@@ -97,14 +87,47 @@ namespace hotel_site.Controllers
             }
         }
 
-        public IActionResult Comments()
+        public IActionResult RoomAvailableChange(int id)
         {
-            return View();
+            return View(id);
         }
 
-        public IActionResult Photo()
+        [Authorize]
+        [HttpPost]
+        public IActionResult RoomAvailableChange(int id, bool confirm)
         {
-            return View(_hotelBuildingDb.GetEntity(1));
+            try
+            {
+                Room room = _roomDb.GetEntity(id);
+                room.IsAvailable = !room.IsAvailable;
+                _roomDb.Update(room);
+                return RedirectToAction("HotelBuilding", new { id = room.HotelBuildingId });
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        public IActionResult DeleteRoom(int id)
+        {
+            return View(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult DeleteRoom(int id, bool confirm)
+        {
+            try
+            {
+                Room room = _roomDb.GetEntity(id);
+                _roomDb.Delete(id);
+                return RedirectToAction("HotelBuilding", new { id = room.HotelBuildingId });
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
