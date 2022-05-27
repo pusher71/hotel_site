@@ -89,7 +89,7 @@ namespace hotel_site.Controllers
                 hotelInfo.PhoneNumber = phoneNumber;
                 hotelInfo.Email = email;
                 _hotelInfoDb.Update(hotelInfo);
-                return View("Index", GetHotelInfoAndBuildings());
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -115,7 +115,7 @@ namespace hotel_site.Controllers
             {
                 HotelBuilding hotelBuilding = new HotelBuilding(_hotelBuildingDb.GetNewId(), name, description, address, phoneNumber, email);
                 _hotelBuildingDb.Create(hotelBuilding);
-                return View("Index", GetHotelInfoAndBuildings());
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -141,7 +141,7 @@ namespace hotel_site.Controllers
                 hotelBuilding.PhoneNumber = phoneNumber;
                 hotelBuilding.Email = email;
                 _hotelBuildingDb.Update(hotelBuilding);
-                return View("Index", GetHotelInfoAndBuildings());
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -161,7 +161,7 @@ namespace hotel_site.Controllers
             try
             {
                 _hotelBuildingDb.Delete(id);
-                return View("Index", GetHotelInfoAndBuildings());
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -192,7 +192,7 @@ namespace hotel_site.Controllers
 
                 hotelPhoto.SetHotel(hotelBuilding);
                 _hotelPhotoDb.Create(hotelPhoto);
-                return View("HotelBuilding", _hotelBuildingDb.GetEntity(hotelPhoto.HotelBuildingId ?? default));
+                return RedirectToAction("HotelBuilding", new { id = hotelPhoto.HotelBuildingId });
             }
             catch (Exception e)
             {
@@ -213,7 +213,7 @@ namespace hotel_site.Controllers
             {
                 HotelPhoto hotelPhoto = _hotelPhotoDb.GetEntity(id);
                 _hotelPhotoDb.Delete(id);
-                return View("HotelBuilding", _hotelBuildingDb.GetEntity(hotelPhoto.HotelBuildingId ?? default));
+                return RedirectToAction("HotelBuilding", new { id = hotelPhoto.HotelBuildingId });
             }
             catch (Exception e)
             {
@@ -237,7 +237,7 @@ namespace hotel_site.Controllers
 
                 room.SetHotel(hotelBuilding);
                 _roomDb.Create(room);
-                return View("HotelBuilding", _hotelBuildingDb.GetEntity(room.HotelBuildingId ?? default));
+                return RedirectToAction("HotelBuilding", new { id = room.HotelBuildingId });
             }
             catch (Exception e)
             {
@@ -259,7 +259,7 @@ namespace hotel_site.Controllers
                 Room room = _roomDb.GetEntity(id);
                 room.IsAvailable = !room.IsAvailable;
                 _roomDb.Update(room);
-                return View("HotelBuilding", _hotelBuildingDb.GetEntity(room.HotelBuildingId ?? default));
+                return RedirectToAction("HotelBuilding", new { id = room.HotelBuildingId });
             }
             catch (Exception e)
             {
@@ -280,7 +280,7 @@ namespace hotel_site.Controllers
             {
                 Room room = _roomDb.GetEntity(id);
                 _roomDb.Delete(id);
-                return View("HotelBuilding", _hotelBuildingDb.GetEntity(room.HotelBuildingId ?? default));
+                return RedirectToAction("HotelBuilding", new { id = room.HotelBuildingId });
             }
             catch (Exception e)
             {
