@@ -17,7 +17,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Информация</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Comments">Отзывы</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Comment" asp-action="Index">Отзывы</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Photo">Фото</a>
@@ -34,7 +34,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SignUp">Зарегистрироваться</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnUrl="/">Войти</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Войти</a>
                             </li>
                         }
 

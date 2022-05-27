@@ -38,11 +38,6 @@ namespace hotel_site.Controllers
                     var sr = await signinManager.PasswordSignInAsync(user, loginModel.Password, false, false);
                     if ((await signinManager.PasswordSignInAsync(user, loginModel.Password, false, false)).Succeeded)
                     {
-
-                        // здесь проверка на костыльную или более-менее нормальную, но тоже не очень, покупку
-                        if (TempData.ContainsKey("CategoryId") && TempData.ContainsKey("ProductId") && TempData.ContainsKey("Quantity"))
-                            return RedirectToAction("BuyProductGet", "Categories");
-
                         return Redirect(loginModel?.ReturnUrl ?? "/");
                     }
                 }

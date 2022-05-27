@@ -7,6 +7,7 @@ using System.IO;
 using System.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -18,9 +19,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace hotel_site.Controllers
 {
-    public class HomeController : Controller
+    public class CommentController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private UserManager<IdentityUser> _userManager;
+        private IHttpContextAccessor _httpContextAccessor;
         private IRepository<HotelInfo> _hotelInfoDb;
         private IRepository<HotelBuilding> _hotelBuildingDb;
         private IRepository<HotelPhoto> _hotelPhotoDb;
@@ -33,7 +36,9 @@ namespace hotel_site.Controllers
         private IRepository<HistoryAction> _historyActionDb;
         private IRepository<HistoryRecord> _historyRecordDb;
 
-        public HomeController(ILogger<HomeController> logger,
+        public CommentController(ILogger<HomeController> logger,
+            UserManager<IdentityUser> userManager,
+            IHttpContextAccessor httpContextAccessor,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,
             HotelPhotoDbRepository hotelPhotoDb,
@@ -47,6 +52,8 @@ namespace hotel_site.Controllers
             HistoryRecordDbRepository historyRecordDb)
         {
             _logger = logger;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
             _hotelInfoDb = hotelInfoDb;
             _hotelBuildingDb = hotelBuildingDb;
             _hotelPhotoDb = hotelPhotoDb;
@@ -60,37 +67,25 @@ namespace hotel_site.Controllers
             _historyRecordDb = historyRecordDb;
         }
 
-        private HotelInfoAndBuildings GetHotelInfoAndBuildings()
-        {
-            return new HotelInfoAndBuildings
-            {
-                HotelInfo = _hotelInfoDb.GetEntity(1),
-                HotelBuildings = _hotelBuildingDb.GetEntityList()
-            };
-        }
-
         public IActionResult Index()
         {
-            return View(GetHotelInfoAndBuildings());
+            return View(_commentDb.GetEntityList());
         }
 
-        public IActionResult EditHotelInfo()
+        public IActionResult AddComment()
         {
-            return View(_hotelInfoDb.GetEntity(1));
+            return View();
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult EditHotelInfo(string name, string description, string phoneNumber, string email)
+        public IActionResult AddComment(string text, int rating)
         {
             try
             {
-                HotelInfo hotelInfo = _hotelInfoDb.GetEntity(1);
-                hotelInfo.Name = name;
-                hotelInfo.Description = description;
-                hotelInfo.PhoneNumber = phoneNumber;
-                hotelInfo.Email = email;
-                _hotelInfoDb.Update(hotelInfo);
+                Comment comment = new Comment(_commentDb.GetNewId(), text, rating, DateTime.Now.Ticks);
+                comment.UserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                _commentDb.Create(comment);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
@@ -99,9 +94,24 @@ namespace hotel_site.Controllers
             }
         }
 
-        public IActionResult Photo()
+        public IActionResult DeleteComment(int id)
         {
-            return View(_hotelBuildingDb.GetEntity(1));
+            return View(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult DeleteComment(int id, bool confirm)
+        {
+            try
+            {
+                _commentDb.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

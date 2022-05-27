@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Comment>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Hotel</title>
+</head>
+<body>
+    <h1>Отзывы</h1>
+    <div class="grid-container">
+        @foreach (Comment comment in Model)
+        {
+            <div class="grid-item">
+                <h3>@comment.UserId</h3>
+                <p>@comment.Text</p>
+                <p>Оценка: @comment.Rating</p>
+                <p>Добавлено: @(new DateTime(comment.Timestamp).ToString())</p>
+                @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+                {
+                    <br />
+                    <a asp-area="" asp-controller="Comment" asp-action="DeleteComment" asp-route-id="@comment.Id">Удалить отзыв</a>
+                }
+            </div>
+        }
+    </div>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <a asp-area="" asp-controller="Comment" asp-action="AddComment">Добавить отзыв</a>
+    }
+</body>
+</html>
