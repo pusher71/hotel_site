@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public byte[] Image { get; set; }
-        public int? RoomId { get; set; }
+        public int RoomId { get; set; }
         public virtual Room Room { get; set; }
 
         public RoomPhoto(int id, byte[] image)

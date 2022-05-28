@@ -10,7 +10,7 @@ namespace hotel_site.Models
         public float Square { get; set; }
         public float Price { get; set; }
         public bool IsAvailable { get; set; }
-        public int? HotelBuildingId { get; set; }
+        public int HotelBuildingId { get; set; }
         public virtual HotelBuilding HotelBuilding { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
         public virtual ICollection<RoomPhoto> RoomPhotos { get; set; } = new List<RoomPhoto>();

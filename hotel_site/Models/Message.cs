@@ -7,8 +7,10 @@
         public long Timestamp { get; set; }
         public int? UserFromId { get; set; }
         public virtual User UserFrom { get; set; }
+        public string UserFromName { get; set; } //на случай пропажи UserFrom из базы данных
         public int? UserToId { get; set; }
         public virtual User UserTo { get; set; }
+        public string UserToName { get; set; } //на случай пропажи UserTo из базы данных
 
         public Message(int id, string text, long timestamp)
         {
