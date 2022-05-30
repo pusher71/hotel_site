@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace hotel_site.Models
 {
@@ -12,7 +13,8 @@ namespace hotel_site.Models
         public bool IsAvailable { get; set; }
         public int HotelBuildingId { get; set; }
         public virtual HotelBuilding HotelBuilding { get; set; }
-        public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public int? BookForeignKey { get; set; }
+        public virtual Book Book { get; set; }
         public virtual ICollection<RoomPhoto> RoomPhotos { get; set; } = new List<RoomPhoto>();
 
         public Room(int id, string number, string floor, float square, float price, bool isAvailable)
@@ -28,17 +30,19 @@ namespace hotel_site.Models
         public void SetHotel(HotelBuilding hotel)
         {
             if (HotelBuilding != null)
-                throw new System.Exception("Ошибка. Комната уже присвоена отелю.");
+                throw new Exception("Ошибка. Комната уже присвоена отелю.");
             HotelBuilding = hotel;
             HotelBuildingId = hotel.Id;
         }
 
-        public void Book(User user)
+        public void SetBook(Book book)
         {
-            if (!IsAvailable || Users.Count > 0)
-                throw new System.Exception("Ошибка. Комната занята.");
-            Users.Add(user);
-            IsAvailable = false;
+            if (Book != null)
+                throw new Exception("Ошибка. Бронь уже имеется.");
+            if (!IsAvailable)
+                throw new Exception("Ошибка. Комната недоступна.");
+            Book = book;
+            BookForeignKey = book.Id;
         }
     }
 }

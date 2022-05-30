@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using hotel_site.Models;
 using hotel_site.Models.ViewModels;
 
 namespace hotel_site.Controllers
@@ -9,9 +10,9 @@ namespace hotel_site.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private UserManager<IdentityUser> userManager;
-        private SignInManager<IdentityUser> signinManager;
-        public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signinMgr)
+        private UserManager<User> userManager;
+        private SignInManager<User> signinManager;
+        public AccountController(UserManager<User> userMgr, SignInManager<User> signinMgr)
         {
             userManager = userMgr;
             signinManager = signinMgr;
@@ -30,7 +31,7 @@ namespace hotel_site.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser user =
+                User user =
                 await userManager.FindByNameAsync(loginModel.Name);
                 if (user != null)
                 {

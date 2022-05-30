@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.Web;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -19,43 +20,40 @@ namespace hotel_site.Controllers
     public class HotelBuildingController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private IRepository<HotelInfo> _hotelInfoDb;
-        private IRepository<HotelBuilding> _hotelBuildingDb;
-        private IRepository<HotelPhoto> _hotelPhotoDb;
-        private IRepository<Room> _roomDb;
-        private IRepository<RoomPhoto> _roomPhotoDb;
-        private IRepository<User> _userDb;
-        private IRepository<Comment> _commentDb;
-        private IRepository<Message> _messageDb;
-        private IRepository<Service> _serviceDb;
-        private IRepository<HistoryAction> _historyActionDb;
-        private IRepository<HistoryRecord> _historyRecordDb;
+        private readonly UserManager<User> _userManager;
+        private readonly IRepository<HotelInfo> _hotelInfoDb;
+        private readonly IRepository<HotelBuilding> _hotelBuildingDb;
+        private readonly IRepository<HotelPhoto> _hotelPhotoDb;
+        private readonly IRepository<Room> _roomDb;
+        private readonly IRepository<RoomPhoto> _roomPhotoDb;
+        private readonly IRepository<Book> _bookDb;
+        private readonly IRepository<Comment> _commentDb;
+        private readonly IRepository<Message> _messageDb;
+        private readonly IRepository<Service> _serviceDb;
 
         public HotelBuildingController(ILogger<HomeController> logger,
+            UserManager<User> userManager,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,
             HotelPhotoDbRepository hotelPhotoDb,
             RoomDbRepository roomDb,
             RoomPhotoDbRepository roomPhotoDb,
-            UserDbRepository userDb,
+            BookDbRepository bookDb,
             CommentDbRepository commentDb,
             MessageDbRepository messageDb,
-            ServiceDbRepository serviceDb,
-            HistoryActionDbRepository historyActionDb,
-            HistoryRecordDbRepository historyRecordDb)
+            ServiceDbRepository serviceDb)
         {
             _logger = logger;
+            _userManager = userManager;
             _hotelInfoDb = hotelInfoDb;
             _hotelBuildingDb = hotelBuildingDb;
             _hotelPhotoDb = hotelPhotoDb;
             _roomDb = roomDb;
             _roomPhotoDb = roomPhotoDb;
-            _userDb = userDb;
+            _bookDb = bookDb;
             _commentDb = commentDb;
             _messageDb = messageDb;
             _serviceDb = serviceDb;
-            _historyActionDb = historyActionDb;
-            _historyRecordDb = historyRecordDb;
         }
 
         public IActionResult Index(int id)

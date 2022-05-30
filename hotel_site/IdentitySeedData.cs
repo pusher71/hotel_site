@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using hotel_site.Models;
 
 namespace hotel_site
 {
     public static class IdentitySeedData
     {
-        private const string adminUser = "Admin";
+        private const string adminUserName = "Admin";
+        private const string adminLastName = "Adminov";
         private const string adminPassword = "Secret123$";
         public static async void EnsurePopulated(IApplicationBuilder арр)
         {
             using var scope = арр.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            UserManager<IdentityUser> userManager = scope.ServiceProvider.GetService<UserManager<IdentityUser>>();
+            UserManager<User> userManager = scope.ServiceProvider.GetService<UserManager<User>>();
 
-            IdentityUser user = await userManager.FindByIdAsync(adminUser);
-            if (user == null)
+            User admin = await userManager.FindByIdAsync(adminUserName);
+            if (admin == null)
             {
-                user = new IdentityUser(adminUser);
-                await userManager.CreateAsync(user, adminPassword);
+                admin = new User(adminUserName, adminLastName);
+                await userManager.CreateAsync(admin, adminPassword);
             }
         }
     }

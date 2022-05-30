@@ -15,7 +15,7 @@
                 <h3>@comment.UserId</h3>
                 <p>@comment.Text</p>
                 <p>Оценка: @comment.Rating</p>
-                <p>Добавлено: @(new DateTime(comment.Timestamp).ToString())</p>
+                <p>Добавлено: @comment.Timestamp.ToString()</p>
                 @if (@User.Identity != null && @User.Identity.IsAuthenticated)
                 {
                     <br />

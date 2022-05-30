@@ -7,12 +7,11 @@ namespace hotel_site.Models
         public int Id { get; set; }
         public string Text { get; set; }
         public int Rating { get; set; }
-        public long Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
         public string UserId { get; set; }
-        //public int? UserId { get; set; }
-        //public virtual User User { get; set; }
+        public string UserName { get; set; } //на случай пропажи User из базы данных
 
-        public Comment(int id, string text, int rating, long timestamp)
+        public Comment(int id, string text, int rating, DateTime timestamp)
         {
             Id = id;
             Text = text;
@@ -20,12 +19,12 @@ namespace hotel_site.Models
             Timestamp = timestamp;
         }
 
-        //public void SetUser(User user)
-        //{
-        //    if (User != null)
-        //        throw new Exception("Ошибка. Пользователь уже определён.");
-        //    User = user;
-        //    UserId = user.Id;
-        //}
+        public void SetUser(string userId, string userName)
+        {
+            if (userId != null || userName != null)
+                throw new Exception("Ошибка. Пользователь уже определён.");
+            UserId = userId;
+            UserName = userName;
+        }
     }
 }

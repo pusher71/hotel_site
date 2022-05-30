@@ -7,34 +7,34 @@ using hotel_site.Models;
 
 namespace hotel_site.Repository
 {
-    public class HistoryActionDbRepository : IRepository<HistoryAction>
+    public class BookDbRepository : IRepository<Book>
     {
         private DataContext _context;
 
-        public HistoryActionDbRepository(DataContext dataContext)
+        public BookDbRepository(DataContext dataContext)
         {
             _context = dataContext;
         }
 
-        public IEnumerable<HistoryAction> GetEntityList()
+        public IEnumerable<Book> GetEntityList()
         {
-            return _context.HistoryAction.ToList();
+            return _context.Book.ToList();
         }
 
-        public HistoryAction GetEntity(int id)
+        public Book GetEntity(int id)
         {
-            return _context.HistoryAction.FirstOrDefault(k => k.Id == id);
+            return _context.Book.FirstOrDefault(k => k.Id == id);
         }
 
-        public void Create(HistoryAction entity)
+        public void Create(Book entity)
         {
-            if (_context.HistoryAction.Contains(entity))
+            if (_context.Book.Contains(entity))
                 throw new Exception("Ошибка. Данная фотография отеля уже существует.");
-            _context.HistoryAction.Add(entity);
+            _context.Book.Add(entity);
             _context.SaveChanges();
         }
 
-        public void Update(HistoryAction entity)
+        public void Update(Book entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
@@ -42,10 +42,10 @@ namespace hotel_site.Repository
 
         public void Delete(int id)
         {
-            HistoryAction entity = GetEntity(id);
-            if (!_context.HistoryAction.Contains(entity))
+            Book entity = GetEntity(id);
+            if (!_context.Book.Contains(entity))
                 throw new Exception("Ошибка. Данная фотография отеля не существует.");
-            _context.HistoryAction.Remove(entity);
+            _context.Book.Remove(entity);
             _context.SaveChanges();
         }
 

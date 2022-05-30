@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using hotel_site;
@@ -9,9 +10,10 @@ using hotel_site;
 namespace hotel_site.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220529183250_LongToDateTime2")]
+    partial class LongToDateTime2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +186,7 @@ namespace hotel_site.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("BookForeignKey")
+                    b.Property<int?>("BookId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Floor")
@@ -207,7 +209,7 @@ namespace hotel_site.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookForeignKey")
+                    b.HasIndex("BookId")
                         .IsUnique();
 
                     b.HasIndex("HotelBuildingId");
@@ -268,7 +270,7 @@ namespace hotel_site.Migrations
                 {
                     b.HasOne("hotel_site.Models.Book", "Book")
                         .WithOne("Room")
-                        .HasForeignKey("hotel_site.Models.Room", "BookForeignKey");
+                        .HasForeignKey("hotel_site.Models.Room", "BookId");
 
                     b.HasOne("hotel_site.Models.HotelBuilding", "HotelBuilding")
                         .WithMany("Rooms")

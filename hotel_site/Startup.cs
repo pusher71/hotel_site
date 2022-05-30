@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using hotel_site.Models;
 using hotel_site.Repository;
 
 namespace hotel_site
@@ -33,19 +34,17 @@ namespace hotel_site
             services.AddScoped<HotelPhotoDbRepository>();
             services.AddScoped<RoomDbRepository>();
             services.AddScoped<RoomPhotoDbRepository>();
-            services.AddScoped<UserDbRepository>();
+            services.AddScoped<BookDbRepository>();
             services.AddScoped<CommentDbRepository>();
             services.AddScoped<MessageDbRepository>();
             services.AddScoped<ServiceDbRepository>();
-            services.AddScoped<HistoryActionDbRepository>();
-            services.AddScoped<HistoryRecordDbRepository>();
 
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<UserManager<IdentityUser>>();
+            services.AddScoped<UserManager<User>>();
             services.AddHttpContextAccessor();
 
             services.AddControllers().AddNewtonsoftJson(options =>

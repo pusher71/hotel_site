@@ -19,24 +19,28 @@
     <div class="grid-container">
         @foreach (HotelBuilding hotelBuilding in Model.HotelBuildings)
         {
-        <div class="grid-item">
-            <h3>@hotelBuilding.Name</h3>
-            <p>@hotelBuilding.Description</p>
-            <p>Адрес: @hotelBuilding.Address</p>
-            <p>Контактный телефон: @hotelBuilding.PhoneNumber</p>
-            <p>E-mail: @hotelBuilding.Email</p>
-            <a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@hotelBuilding.Id">Подробнее...</a>
-            @if (@User.Identity != null && @User.Identity.IsAuthenticated)
-            {
-                <br />
-                <a asp-area="" asp-controller="HotelBuilding" asp-action="DeleteHotelBuilding" asp-route-id="@hotelBuilding.Id">Удалить корпус</a>
-            }
-        </div>
+            <div class="grid-item">
+                <h3>@hotelBuilding.Name</h3>
+                <p>@hotelBuilding.Description</p>
+                <p>Адрес: @hotelBuilding.Address</p>
+                <p>Контактный телефон: @hotelBuilding.PhoneNumber</p>
+                <p>E-mail: @hotelBuilding.Email</p>
+                <a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@hotelBuilding.Id">Подробнее...</a>
+                @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+                {
+                    <br />
+                    <a asp-area="" asp-controller="HotelBuilding" asp-action="DeleteHotelBuilding" asp-route-id="@hotelBuilding.Id">Удалить корпус</a>
+                }
+            </div>
         }
     </div>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
         <a asp-area="" asp-controller="HotelBuilding" asp-action="AddHotelBuilding">Добавить корпус</a>
+    }
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <a asp-area="" asp-controller="Room" asp-action="BookRoom" asp-route-id="3">Забронировать номер с id=3</a>
     }
 </body>
 </html>
