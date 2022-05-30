@@ -10,12 +10,14 @@ namespace hotel_site.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private UserManager<User> userManager;
-        private SignInManager<User> signinManager;
-        public AccountController(UserManager<User> userMgr, SignInManager<User> signinMgr)
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
-            userManager = userMgr;
-            signinManager = signinMgr;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -32,12 +34,12 @@ namespace hotel_site.Controllers
             if (ModelState.IsValid)
             {
                 User user =
-                await userManager.FindByNameAsync(loginModel.Name);
+                await _userManager.FindByNameAsync(loginModel.Name);
                 if (user != null)
                 {
-                    await signinManager.SignOutAsync();
-                    var sr = await signinManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-                    if ((await signinManager.PasswordSignInAsync(user, loginModel.Password, false, false)).Succeeded)
+                    await _signInManager.SignOutAsync();
+                    var sr = await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+                    if ((await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false)).Succeeded)
                     {
                         return Redirect(loginModel?.ReturnUrl ?? "/");
                     }
@@ -49,8 +51,45 @@ namespace hotel_site.Controllers
 
         public async Task<RedirectResult> Logout(string returnUrl = "/")
         {
-            await signinManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return Redirect(returnUrl);
+        }
+
+        [AllowAnonymous]
+        public ViewResult Register()
+        {
+            return View(new RegisterViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.Password != model.PasswordConfirm)
+                {
+                    ModelState.AddModelError("Ошибка регистрации", "Пароли должны совпадать");
+                    return View(model);
+                }
+
+                User user = new User {
+                    UserName = model.UserName,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Ошибка регистрации 2");
+                return View(model);
+            }
+            ModelState.AddModelError("", "Ошибка регистрации 1");
+            return View(model);
         }
     }
 }

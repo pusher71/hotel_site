@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model hotel_site.Models.ViewModels.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+<div class="text-danger" asp-validation-summary="All"></div>
+<form asp-action="Register" asp-controller="Account" method="post">
+    <div class="form-group">
+        <label>Логин</label>
+        <div><span asp-validation-for="UserName" class="text-danger"></span></div>
+        <input asp-for="UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Пароль</label>
+        <div><span asp-validation-for="Password" class="text-danger"></span></div>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Подтвердите пароль</label>
+        <div><span asp-validation-for="PasswordConfirm" class="text-danger"></span></div>
+        <input asp-for="PasswordConfirm" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Имя</label>
+        <div><span asp-validation-for="FirstName" class="text-danger"></span></div>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Фамилия</label>
+        <div><span asp-validation-for="LastName" class="text-danger"></span></div>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Номер телефона</label>
+        <div><span asp-validation-for="PhoneNumber" class="text-danger"></span></div>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+    <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
+</form>
