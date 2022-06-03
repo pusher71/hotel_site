@@ -21,7 +21,7 @@ namespace hotel_site.Controllers
 {
     public class MessageController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<MessageController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly IRepository<HotelInfo> _hotelInfoDb;
         private readonly IRepository<HotelBuilding> _hotelBuildingDb;
@@ -33,7 +33,7 @@ namespace hotel_site.Controllers
         private readonly IRepository<Message> _messageDb;
         private readonly IRepository<Service> _serviceDb;
 
-        public MessageController(ILogger<HomeController> logger,
+        public MessageController(ILogger<MessageController> logger,
             UserManager<User> userManager,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,

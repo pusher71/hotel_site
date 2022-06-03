@@ -19,7 +19,7 @@ namespace hotel_site.Controllers
 {
     public class HotelPhotoController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HotelPhotoController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly IRepository<HotelInfo> _hotelInfoDb;
         private readonly IRepository<HotelBuilding> _hotelBuildingDb;
@@ -31,7 +31,7 @@ namespace hotel_site.Controllers
         private readonly IRepository<Message> _messageDb;
         private readonly IRepository<Service> _serviceDb;
 
-        public HotelPhotoController(ILogger<HomeController> logger,
+        public HotelPhotoController(ILogger<HotelPhotoController> logger,
             UserManager<User> userManager,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,
