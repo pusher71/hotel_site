@@ -7,7 +7,6 @@ using System.IO;
 using System.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -19,7 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace hotel_site.Controllers
 {
-    public class CommentController : Controller
+    public class BookController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
@@ -33,7 +32,7 @@ namespace hotel_site.Controllers
         private readonly IRepository<Message> _messageDb;
         private readonly IRepository<Service> _serviceDb;
 
-        public CommentController(ILogger<HomeController> logger,
+        public BookController(ILogger<HomeController> logger,
             UserManager<User> userManager,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,
@@ -58,30 +57,50 @@ namespace hotel_site.Controllers
             _serviceDb = serviceDb;
         }
 
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-            return View(_commentDb.GetEntityList());
+            if (await _userManager.IsInRoleAsync(await _userManager.GetUserAsync(User), "admin"))
+                return View(_bookDb.GetEntityList());
+            else
+                return View(_bookDb.GetEntityList().Where(k => k.UserId == _userManager.GetUserId(User)));
         }
 
         [Authorize]
-        public IActionResult AddComment()
+        public IActionResult AddBook(int roomId)
         {
-            return View();
+            return View(roomId);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddComment(string text, int rating)
+        public async Task<IActionResult> AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount)
         {
-            if (rating < 1 || rating > 5)
-                return View("ErrorPage", "Ошибка. Оценка должна быть в интервале [1..5].");
+            Room room = _roomDb.GetEntity(roomId);
+
+            //проверить промежуток времени
+            if (momentStart >= momentEnd)
+                return View("ErrorPage", "Дата начала должна быть меньше даты окончания");
+
+            //проверить доступность самой комнаты
+            if (!room.IsAvailable)
+                return View("ErrorPage", "Комната временно недоступна");
+
+            //проверить вместительность
+            if (personCount > 5) //room.MaxPersonCount
+                return View("ErrorPage", "Комната не рассчитана на данное количество человек");
+
+            //проверить возможность забронировать
+            foreach (Book existingBook in _bookDb.GetEntityList())
+                if (existingBook.RoomId == room.Id && existingBook.MomentStart < momentEnd && existingBook.MomentEnd > momentStart)
+                    return View("ErrorPage", "Выбранный промежуток времени пересекается с другой бронью");
+
             try
             {
-                User user = await _userManager.GetUserAsync(User);
-                Comment comment = new Comment(_commentDb.GetNewId(), text, rating, DateTime.Now);
-                comment.SetUser(user);
-                _commentDb.Create(comment);
-                return RedirectToAction("Index");
+                Book book = new Book(_bookDb.GetNewId(), momentStart, momentEnd, personCount, personCount * room.Price);
+                book.Link(await _userManager.GetUserAsync(User), room);
+                _bookDb.Create(book);
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {
@@ -90,19 +109,19 @@ namespace hotel_site.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public IActionResult DeleteComment(int id)
+        public IActionResult DeleteBook(int id)
         {
             return View(id);
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult DeleteComment(int id, bool confirm)
+        public IActionResult DeleteBook(int id, bool confirm)
         {
             try
             {
-                _commentDb.Delete(id);
-                return RedirectToAction("Index");
+                _bookDb.Delete(id);
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
             {

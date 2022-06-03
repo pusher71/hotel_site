@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Book>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Book</title>
+</head>
+<body>
+    <h1>Брони</h1>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <table border=1>
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Номер</th>
+                <th>Дата начала</th>
+                <th>Дата окончания</th>
+                <th>Цена</th>
+                <th> </th>
+            </tr>
+            @foreach (Book book in Model)
+            {
+                <tr>
+                    <td>@book.UserId</td>
+                    <td>@book.Room.Number </td>
+                    <td>@book.MomentStart.ToString()</td>
+                    <td>@book.MomentEnd.ToString()</td>
+                    <td>@book.Price</td>
+                    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                    {
+                        <td><a asp-area="" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
+                    }
+                    else
+                    {
+                        <td>Требуется авторизация для удаления</td>
+                    }
+                </tr>
+            }
+        </table>
+    }
+    <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
+</body>
+</html>

@@ -10,6 +10,7 @@ namespace hotel_site.Models
         public int PersonCount { get; set; }
         public float Price { get; set; }
         public string UserId { get; set; }
+        public string UserName { get; set; }
         public int? RoomId { get; set; }
         public virtual Room Room { get; set; }
 
@@ -22,9 +23,10 @@ namespace hotel_site.Models
             Price = price;
         }
 
-        public void Link(string userId, Room room)
+        public void Link(User user, Room room)
         {
-            UserId = userId;
+            UserId = user.Id;
+            UserName = user.FirstName;
             Room = room;
             RoomId = room.Id;
         }

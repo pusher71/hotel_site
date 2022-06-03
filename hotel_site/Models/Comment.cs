@@ -19,12 +19,12 @@ namespace hotel_site.Models
             Timestamp = timestamp;
         }
 
-        public void SetUser(string userId, string userName)
+        public void SetUser(User user)
         {
-            if (userId != null || userName != null)
+            if (UserId != null)
                 throw new Exception("Ошибка. Пользователь уже определён.");
-            UserId = userId;
-            UserName = userName;
+            UserId = user.Id;
+            UserName = user.FirstName;
         }
     }
 }
