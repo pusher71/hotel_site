@@ -12,11 +12,9 @@
         <div class="arrowsidemenu">
             @if (@User.Identity != null && @User.Identity.IsAuthenticated)
             {
-                <div><a class="nav-link text-dark" asp-area="" asp-controller="Message" asp-action="Index">Чат</a></div>
-                @if (!User.IsInRole("client"))
-                {
-                    <div class="menuheaders"><a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="SelectRoom">Забронировать номер</a></div>
-                }
+                <a asp-area="" asp-controller="Book" asp-action="Index">Бронирование номеров</a>
+                <br />
+                <a asp-area="" asp-controller="Message" asp-action="Index">Чат</a>
             }
         </div>
         <div>

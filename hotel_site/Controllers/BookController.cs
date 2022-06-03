@@ -20,7 +20,7 @@ namespace hotel_site.Controllers
 {
     public class BookController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<BookController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly IRepository<HotelInfo> _hotelInfoDb;
         private readonly IRepository<HotelBuilding> _hotelBuildingDb;
@@ -32,7 +32,7 @@ namespace hotel_site.Controllers
         private readonly IRepository<Message> _messageDb;
         private readonly IRepository<Service> _serviceDb;
 
-        public BookController(ILogger<HomeController> logger,
+        public BookController(ILogger<BookController> logger,
             UserManager<User> userManager,
             HotelInfoDbRepository hotelInfoDb,
             HotelBuildingDbRepository hotelBuildingDb,
@@ -60,29 +60,56 @@ namespace hotel_site.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            if (await _userManager.IsInRoleAsync(await _userManager.GetUserAsync(User), "admin"))
+            if (await UserIsAdmin())
                 return View(_bookDb.GetEntityList());
             else
                 return View(_bookDb.GetEntityList().Where(k => k.UserId == _userManager.GetUserId(User)));
         }
 
-        [Authorize(Roles = "client")]
-        public IActionResult SelectRoom()
+        [Authorize]
+        public async Task<IActionResult> SelectHotelBuilding()
         {
-            return View();
+            if (await UserIsAdmin())
+                return View("ErrorPage", "Администратор не может забронировать номер.");
+            if (UserIsResident())
+                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
+
+            return !UserIsResident() ? View(_hotelBuildingDb.GetEntityList()) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
         }
 
-        [Authorize(Roles = "client")]
-        public IActionResult AddBook(int roomId)
+        [Authorize]
+        public async Task<IActionResult> SelectRoom(int hotelBuildingId)
         {
-            return View(roomId);
+            if (await UserIsAdmin())
+                return View("ErrorPage", "Администратор не может забронировать номер.");
+            if (UserIsResident())
+                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
+
+            return !UserIsResident() ? View(new RoomsViewData(_hotelBuildingDb.GetEntity(hotelBuildingId))) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
         }
 
-        [Authorize(Roles = "client")]
+        [Authorize]
+        public async Task<IActionResult> AddBook(int roomId)
+        {
+            if (await UserIsAdmin())
+                return View("ErrorPage", "Администратор не может забронировать номер.");
+            if (UserIsResident())
+                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
+
+            return !UserIsResident() ? View(roomId) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount)
         {
             Room room = _roomDb.GetEntity(roomId);
+
+            //проверить, является ли пользователь клиентом (не имеет бронь и не администратор)
+            if (await UserIsAdmin())
+                return View("ErrorPage", "Администратор не может забронировать номер.");
+            if (UserIsResident())
+                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
 
             //проверить промежуток времени
             if (momentStart >= momentEnd)
@@ -114,13 +141,13 @@ namespace hotel_site.Controllers
             }
         }
 
-        [Authorize(Roles = "admin,client")]
+        [Authorize]
         public IActionResult DeleteBook(int id)
         {
             return View(id);
         }
 
-        [Authorize(Roles = "admin,client")]
+        [Authorize]
         [HttpPost]
         public IActionResult DeleteBook(int id, bool confirm)
         {
@@ -139,6 +166,20 @@ namespace hotel_site.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<bool> UserIsAdmin()
+        {
+            return await _userManager.IsInRoleAsync(await _userManager.GetUserAsync(User), "admin");
+        }
+
+        public bool UserIsResident()
+        {
+            bool activeBookExists = false;
+            foreach (Book book in _bookDb.GetEntityList())
+                if (book.UserId == _userManager.GetUserId(User) && book.IsActive())
+                    activeBookExists = true;
+            return activeBookExists;
         }
     }
 }

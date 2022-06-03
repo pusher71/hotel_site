@@ -11,27 +11,20 @@
     <title>Book</title>
 </head>
 <body>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    <h2>Выберите номер</h2>
+    @foreach (string floor in Model.RoomFloors.OrderBy(k => -int.Parse(k)))
     {
-        <h2>Забронировать номер</h2>
-        @foreach (string floor in Model.RoomFloors.OrderBy(k => -int.Parse(k)))
-        {
-            <table>
-                <tr>
-                    <td>@floor</td>
-                    @foreach (Room room in Model.Rooms[floor].OrderBy(k => k.Number))
-                    {
-                        <td width="@(100 / Model.Rooms[floor].Count)%"><a asp-area="" asp-controller="Book" asp-action="AddBook" asp-route-roomId="@room.Id">@room.Number</a></td>
-                    }
-                </tr>
-            </table>
-        }
-    }
-    else
-    {
-        <h2>Требуется авторизация для бронирования номера</h2>
+        <table>
+            <tr>
+                <td>@floor</td>
+                @foreach (Room room in Model.Rooms[floor].OrderBy(k => k.Number))
+                {
+                    <td width="@(100 / Model.Rooms[floor].Count)%"><a asp-area="" asp-controller="Book" asp-action="AddBook" asp-route-roomId="@room.Id">@room.Number</a></td>
+                }
+            </tr>
+        </table>
     }
 
-    <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
+    <a asp-area="" asp-controller="Book" asp-action="SelectHotelBuilding" asp-route-hotelBuildingId="@Model.HotelBuilding.Id">Назад</a>
 </body>
 </html>

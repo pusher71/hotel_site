@@ -76,7 +76,6 @@ namespace hotel_site.Controllers
                     LastName = model.LastName,
                     PhoneNumber = model.PhoneNumber
                 };
-                await _userManager.AddToRoleAsync(user, "client");
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

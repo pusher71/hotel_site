@@ -17,13 +17,9 @@ namespace hotel_site
             UserManager<User> userManager = scope.ServiceProvider.GetService<UserManager<User>>();
             RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
-            //создать роли пользователей
+            //создать роль администратора
             if (await roleManager.RoleExistsAsync("admin"))
                 await roleManager.CreateAsync(new IdentityRole("admin"));
-            if (await roleManager.RoleExistsAsync("client"))
-                await roleManager.CreateAsync(new IdentityRole("client"));
-            if (await roleManager.RoleExistsAsync("resident"))
-                await roleManager.CreateAsync(new IdentityRole("resident"));
 
             //создать администратора
             User admin = await userManager.FindByIdAsync(adminUserName);

@@ -7,9 +7,14 @@
     <title>Book</title>
 </head>
 <body>
-    <h1>Брони</h1>
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    @if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("admin") && Model.Count() == 0)
     {
+        <a asp-area="" asp-controller="Book" asp-action="SelectHotelBuilding">Забронировать номер</a>
+        <br />
+    }
+    else
+    {
+        <h1>Брони</h1>
         <table border=1>
             <tr>
                 <th>Имя пользователя</th>
@@ -27,7 +32,7 @@
                     <td>@book.MomentStart.ToString()</td>
                     <td>@book.MomentEnd.ToString()</td>
                     <td>@book.Price</td>
-                    @if (User.IsInRole("admin") || User.IsInRole("client"))
+                    @if (User.IsInRole("admin") || !book.IsActive())
                     {
                         <td><a asp-area="" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
                     }
@@ -39,6 +44,7 @@
             }
         </table>
     }
+
     <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
 </body>
 </html>
