@@ -1,4 +1,6 @@
-﻿@{
+﻿@model string
+
+@{
     Layout = null;
 }
 
@@ -11,23 +13,21 @@
 <body>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated)
     {
-        <h2>Добавить отзыв</h2>
+        <h2>Написать сообщение</h2>
         <form method="post">
+            <input type="hidden" name="userToId" value="@Model" />
             <label>Текст</label>
             <br />
             <textarea name="text" cols="40" rows="5"></textarea>
-            <br />
-            <label>Оценка</label>
-            <input type="number" name="rating" min="1" max="5" value="" />
             <br />
             <input type="submit" value="Добавить" />
         </form>
     }
     else
     {
-        <h2>Требуется авторизация для добавления отзыва</h2>
+        <h2>Требуется авторизация для написания сообщения</h2>
     }
 
-    <a asp-area="" asp-controller="Comment" asp-action="Index">Назад</a>
+    <a asp-area="" asp-controller="Message" asp-action="Index">Назад</a>
 </body>
 </html>

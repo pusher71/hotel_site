@@ -1,0 +1,27 @@
+﻿@model MessagesInfo
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Message</title>
+</head>
+<body>
+    <h1>Чат</h1>
+    <div class="grid-container">
+        @foreach (Message message in Model.Messages)
+        {
+        <div class="grid-item">
+            <h3>От: @message.UserFromName</h3>
+            <h3>Кому: @message.UserToName</h3>
+            <p>@message.Text</p>
+            <p>Добавлено: @message.Timestamp.ToString()</p>
+        </div>
+        }
+    </div>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <a asp-area="" asp-controller="Message" asp-action="AddMessage" asp-route-userToId ="@Model.UserToId">Написать сообщение</a>
+    }
+</body>
+</html>

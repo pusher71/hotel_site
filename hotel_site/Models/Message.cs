@@ -25,6 +25,8 @@ namespace hotel_site.Models
                 throw new Exception("Ошибка. Пользователи уже определены.");
             UserFromId = userFrom.Id;
             UserToId = userTo.Id;
+            UserFromName = userFrom.FirstName;
+            UserToName = userTo.FirstName;
         }
     }
 }

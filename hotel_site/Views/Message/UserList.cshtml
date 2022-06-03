@@ -1,0 +1,17 @@
+﻿@model UserListInfo
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Message</title>
+</head>
+<body>
+    <h1>Чат</h1>
+    @foreach (User user in Model.Users)
+    {
+        <a asp-area="" asp-controller="Message" asp-action="Messages" asp-route-userFromId="@Model.AdminId" asp-route-userToId="@user.Id">@user.FirstName</a>
+        <br />
+    }
+</body>
+</html>
