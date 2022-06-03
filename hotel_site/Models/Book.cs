@@ -30,5 +30,10 @@ namespace hotel_site.Models
             Room = room;
             RoomId = room.Id;
         }
+
+        public bool IsActive()
+        {
+            return DateTime.Now > MomentStart && DateTime.Now < MomentEnd;
+        }
     }
 }

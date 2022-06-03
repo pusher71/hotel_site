@@ -15,11 +15,22 @@ namespace hotel_site
         {
             using var scope = арр.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             UserManager<User> userManager = scope.ServiceProvider.GetService<UserManager<User>>();
+            RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
+            //создать роли пользователей
+            if (await roleManager.RoleExistsAsync("admin"))
+                await roleManager.CreateAsync(new IdentityRole("admin"));
+            if (await roleManager.RoleExistsAsync("client"))
+                await roleManager.CreateAsync(new IdentityRole("client"));
+            if (await roleManager.RoleExistsAsync("resident"))
+                await roleManager.CreateAsync(new IdentityRole("resident"));
+
+            //создать администратора
             User admin = await userManager.FindByIdAsync(adminUserName);
             if (admin == null)
             {
                 admin = new User(adminUserName, adminFirstName, adminLastName);
+                await userManager.AddToRoleAsync(admin, "admin");
                 await userManager.CreateAsync(admin, adminPassword);
             }
         }

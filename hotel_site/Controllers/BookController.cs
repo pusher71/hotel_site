@@ -66,13 +66,19 @@ namespace hotel_site.Controllers
                 return View(_bookDb.GetEntityList().Where(k => k.UserId == _userManager.GetUserId(User)));
         }
 
-        [Authorize]
+        [Authorize(Roles = "client")]
+        public IActionResult SelectRoom()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "client")]
         public IActionResult AddBook(int roomId)
         {
             return View(roomId);
         }
 
-        [Authorize]
+        [Authorize(Roles = "client")]
         [HttpPost]
         public async Task<IActionResult> AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount)
         {
@@ -80,20 +86,20 @@ namespace hotel_site.Controllers
 
             //проверить промежуток времени
             if (momentStart >= momentEnd)
-                return View("ErrorPage", "Дата начала должна быть меньше даты окончания");
+                return View("ErrorPage", "Дата начала должна быть меньше даты окончания.");
 
             //проверить доступность самой комнаты
             if (!room.IsAvailable)
-                return View("ErrorPage", "Комната временно недоступна");
+                return View("ErrorPage", "Комната временно недоступна.");
 
             //проверить вместительность
-            if (personCount > 5) //room.MaxPersonCount
-                return View("ErrorPage", "Комната не рассчитана на данное количество человек");
+            if (personCount > room.MaxPersonCount)
+                return View("ErrorPage", "Комната не рассчитана на данное количество человек.");
 
             //проверить возможность забронировать
             foreach (Book existingBook in _bookDb.GetEntityList())
                 if (existingBook.RoomId == room.Id && existingBook.MomentStart < momentEnd && existingBook.MomentEnd > momentStart)
-                    return View("ErrorPage", "Выбранный промежуток времени пересекается с другой бронью");
+                    return View("ErrorPage", "Выбранный промежуток времени пересекается с другой бронью. Выберите другое время или смените номер.");
 
             try
             {
@@ -108,13 +114,13 @@ namespace hotel_site.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,client")]
         public IActionResult DeleteBook(int id)
         {
             return View(id);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,client")]
         [HttpPost]
         public IActionResult DeleteBook(int id, bool confirm)
         {

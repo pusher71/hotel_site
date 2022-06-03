@@ -7,7 +7,6 @@ using hotel_site.Models.ViewModels;
 
 namespace hotel_site.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -20,14 +19,12 @@ namespace hotel_site.Controllers
             _roleManager = roleManager;
         }
 
-        [AllowAnonymous]
         public ViewResult Login(string returnUrl)
         {
             return View(new LoginModel() { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
@@ -45,24 +42,23 @@ namespace hotel_site.Controllers
                     }
                 }
             }
-            ModelState.AddModelError("", "Неправильное имя или пароль");
+            ModelState.AddModelError("", "Неправильное имя или пароль.");
             return View(loginModel);
         }
 
+        [Authorize]
         public async Task<RedirectResult> Logout(string returnUrl = "/")
         {
             await _signInManager.SignOutAsync();
             return Redirect(returnUrl);
         }
 
-        [AllowAnonymous]
         public ViewResult Register()
         {
             return View(new RegisterViewModel());
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -70,7 +66,7 @@ namespace hotel_site.Controllers
             {
                 if (model.Password != model.PasswordConfirm)
                 {
-                    ModelState.AddModelError("Ошибка регистрации", "Пароли должны совпадать");
+                    ModelState.AddModelError("Ошибка регистрации.", "Пароли должны совпадать.");
                     return View(model);
                 }
 
@@ -80,15 +76,16 @@ namespace hotel_site.Controllers
                     LastName = model.LastName,
                     PhoneNumber = model.PhoneNumber
                 };
+                await _userManager.AddToRoleAsync(user, "client");
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Ошибка регистрации 2");
+                ModelState.AddModelError("", "Неизвестная ошибка регистрации.");
                 return View(model);
             }
-            ModelState.AddModelError("", "Ошибка регистрации 1");
+            ModelState.AddModelError("", "Неизвестная ошибка регистрации.");
             return View(model);
         }
     }

@@ -11,6 +11,7 @@
     <p>Этаж: @Model.Floor</p>
     <p>Площадь: @Model.Square</p>
     <p>Цена: @Model.Price</p>
+    <p>Вместимость (чел.): @Model.MaxPersonCount</p>
     <p>Доступна: @(Model.IsAvailable ? "Да" : "Нет")</p>
     @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {

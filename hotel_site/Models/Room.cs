@@ -10,6 +10,7 @@ namespace hotel_site.Models
         public string Floor { get; set; }
         public float Square { get; set; }
         public float Price { get; set; }
+        public int MaxPersonCount { get; set; }
         public bool IsAvailable { get; set; }
         public int HotelBuildingId { get; set; }
         public virtual HotelBuilding HotelBuilding { get; set; }
@@ -17,13 +18,14 @@ namespace hotel_site.Models
         public virtual Book Book { get; set; }
         public virtual ICollection<RoomPhoto> RoomPhotos { get; set; } = new List<RoomPhoto>();
 
-        public Room(int id, string number, string floor, float square, float price, bool isAvailable)
+        public Room(int id, string number, string floor, float square, float price, int maxPersonCount, bool isAvailable)
         {
             Id = id;
             Number = number;
             Floor = floor;
             Square = square;
             Price = price;
+            MaxPersonCount = maxPersonCount;
             IsAvailable = isAvailable;
         }
 

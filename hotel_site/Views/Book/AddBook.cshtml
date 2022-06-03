@@ -23,7 +23,7 @@
             <input type="datetime" name="momentEnd" value="" />
             <br />
             <label>Количество людей</label>
-            <input type="number" name="personCount" min="1" value="" /> <!-- max="Model.MaxPersonCount" -->
+            <input type="number" name="personCount" min="1" max="@Model.MaxPersonCount" value="" />
             <br />
             <input type="submit" value="Добавить" />
         </form>
@@ -33,6 +33,6 @@
         <h2>Требуется авторизация для бронирования номера</h2>
     }
 
-    <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
+    <a asp-area="" asp-controller="Book" asp-action="SelectRoom">Назад</a>
 </body>
 </html>

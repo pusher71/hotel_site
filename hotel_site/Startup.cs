@@ -46,6 +46,7 @@ namespace hotel_site
                 .AddDefaultTokenProviders();
 
             services.AddScoped<UserManager<User>>();
+            services.AddScoped<RoleManager<IdentityRole>>();
             services.AddHttpContextAccessor();
 
             services.AddControllers().AddNewtonsoftJson(options =>

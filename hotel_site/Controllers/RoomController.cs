@@ -69,11 +69,11 @@ namespace hotel_site.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult AddRoom(int hotelBuildingId, string number, string floor, float square, float price, string isAvailable)
+        public IActionResult AddRoom(int hotelBuildingId, string number, string floor, float square, float price, int maxPersonCount, string isAvailable)
         {
             try
             {
-                Room room = new Room(_roomDb.GetNewId(), number, floor, square, price, isAvailable == "on"); //созданный номер
+                Room room = new Room(_roomDb.GetNewId(), number, floor, square, price, maxPersonCount, isAvailable == "on"); //созданный номер
                 HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(hotelBuildingId); //связанный корпус отеля
 
                 room.SetHotel(hotelBuilding);
@@ -94,7 +94,7 @@ namespace hotel_site.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult EditRoom(int id, string number, string floor, float square, float price, string isAvailable)
+        public IActionResult EditRoom(int id, string number, string floor, float square, float price, int maxPersonCount, string isAvailable)
         {
             try
             {
@@ -103,6 +103,7 @@ namespace hotel_site.Controllers
                 room.Floor = floor;
                 room.Square = square;
                 room.Price = price;
+                room.MaxPersonCount = maxPersonCount;
                 room.IsAvailable = isAvailable == "on";
                 _roomDb.Update(room);
                 return RedirectToAction("Index", new { id = room.Id });

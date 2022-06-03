@@ -1,0 +1,37 @@
+﻿@model RoomsViewData
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Book</title>
+</head>
+<body>
+    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    {
+        <h2>Забронировать номер</h2>
+        @foreach (string floor in Model.RoomFloors.OrderBy(k => -int.Parse(k)))
+        {
+            <table>
+                <tr>
+                    <td>@floor</td>
+                    @foreach (Room room in Model.Rooms[floor].OrderBy(k => k.Number))
+                    {
+                        <td width="@(100 / Model.Rooms[floor].Count)%"><a asp-area="" asp-controller="Book" asp-action="AddBook" asp-route-roomId="@room.Id">@room.Number</a></td>
+                    }
+                </tr>
+            </table>
+        }
+    }
+    else
+    {
+        <h2>Требуется авторизация для бронирования номера</h2>
+    }
+
+    <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
+</body>
+</html>

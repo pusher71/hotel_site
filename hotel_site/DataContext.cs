@@ -26,7 +26,9 @@ namespace hotel_site
             _ = HotelPhoto.ToList();
             _ = Room.ToList();
             _ = RoomPhoto.ToList();
+            _ = Book.ToList();
             _ = Comment.ToList();
+            _ = Message.ToList();
         }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -36,7 +38,9 @@ namespace hotel_site
             _ = HotelPhoto.ToList();
             _ = Room.ToList();
             _ = RoomPhoto.ToList();
+            _ = Book.ToList();
             _ = Comment.ToList();
+            _ = Message.ToList();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

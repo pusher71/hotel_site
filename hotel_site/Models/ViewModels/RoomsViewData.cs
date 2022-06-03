@@ -2,13 +2,13 @@
 
 namespace hotel_site.Models.ViewModels
 {
-    public class HotelBuildingViewData
+    public class RoomsViewData
     {
         public HotelBuilding HotelBuilding { get; }
         public ISet<string> RoomFloors { get; }
         public Dictionary<string, List<Room>> Rooms { get; }
 
-        public HotelBuildingViewData(HotelBuilding hotelBuilding)
+        public RoomsViewData(HotelBuilding hotelBuilding)
         {
             RoomFloors = new HashSet<string>();
             Rooms = new Dictionary<string, List<Room>>();
