@@ -21,22 +21,22 @@ namespace hotel_site
 
         public DataContext()
         {
-            //_ = HotelInfo.ToList();
-            //_ = HotelBuilding.ToList();
-            //_ = HotelPhoto.ToList();
-            //_ = Room.ToList();
-            //_ = RoomPhoto.ToList();
-            //_ = Comment.ToList();
+            _ = HotelInfo.ToList();
+            _ = HotelBuilding.ToList();
+            _ = HotelPhoto.ToList();
+            _ = Room.ToList();
+            _ = RoomPhoto.ToList();
+            _ = Comment.ToList();
         }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            //_ = HotelInfo.ToList();
-            //_ = HotelBuilding.ToList();
-            //_ = HotelPhoto.ToList();
-            //_ = Room.ToList();
-            //_ = RoomPhoto.ToList();
-            //_ = Comment.ToList();
+            _ = HotelInfo.ToList();
+            _ = HotelBuilding.ToList();
+            _ = HotelPhoto.ToList();
+            _ = Room.ToList();
+            _ = RoomPhoto.ToList();
+            _ = Comment.ToList();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

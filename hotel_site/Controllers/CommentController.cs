@@ -63,6 +63,7 @@ namespace hotel_site.Controllers
             return View(_commentDb.GetEntityList());
         }
 
+        [Authorize]
         public IActionResult AddComment()
         {
             return View();
@@ -72,6 +73,8 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult AddComment(string text, int rating)
         {
+            if (rating < 1 || rating > 5)
+                return View("ErrorPage", "Ошибка. Оценка должна быть в интервале [1..5].");
             try
             {
                 Comment comment = new Comment(_commentDb.GetNewId(), text, rating, DateTime.Now);
@@ -86,12 +89,13 @@ namespace hotel_site.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteComment(int id)
         {
             return View(id);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult DeleteComment(int id, bool confirm)
         {

@@ -16,7 +16,7 @@
                 <p>@comment.Text</p>
                 <p>Оценка: @comment.Rating</p>
                 <p>Добавлено: @comment.Timestamp.ToString()</p>
-                @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+                @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
                 {
                     <br />
                     <a asp-area="" asp-controller="Comment" asp-action="DeleteComment" asp-route-id="@comment.Id">Удалить отзыв</a>

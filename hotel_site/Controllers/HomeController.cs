@@ -71,12 +71,13 @@ namespace hotel_site.Controllers
             return View(GetHotelInfoAndBuildings());
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult EditHotelInfo()
         {
             return View(_hotelInfoDb.GetEntity(1));
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult EditHotelInfo(string name, string description, string phoneNumber, string email)
         {

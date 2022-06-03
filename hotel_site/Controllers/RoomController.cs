@@ -61,12 +61,13 @@ namespace hotel_site.Controllers
             return View(_roomDb.GetEntity(id));
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult AddRoom(int hotelBuildingId)
         {
             return View(hotelBuildingId);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult AddRoom(int hotelBuildingId, string number, string floor, float square, float price, string isAvailable)
         {
@@ -85,12 +86,13 @@ namespace hotel_site.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult EditRoom(int id)
         {
             return View(_roomDb.GetEntity(id));
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult EditRoom(int id, string number, string floor, float square, float price, string isAvailable)
         {
@@ -111,12 +113,13 @@ namespace hotel_site.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult RoomAvailableChange(int id)
         {
             return View(id);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult RoomAvailableChange(int id, bool confirm)
         {
@@ -133,12 +136,13 @@ namespace hotel_site.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteRoom(int id)
         {
             return View(id);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult DeleteRoom(int id, bool confirm)
         {

@@ -56,12 +56,13 @@ namespace hotel_site.Controllers
             _serviceDb = serviceDb;
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult AddRoomPhoto(int hotelBuildingId)
         {
             return View(hotelBuildingId);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult AddRoomPhoto(int roomId, IFormFile uploadImage)
         {
@@ -87,12 +88,13 @@ namespace hotel_site.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteRoomPhoto(int id)
         {
             return View(id);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult DeleteRoomPhoto(int id, bool confirm)
         {

@@ -61,12 +61,13 @@ namespace hotel_site.Controllers
             return View(_hotelBuildingDb.GetEntity(id));
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult AddHotelBuilding()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult AddHotelBuilding(string name, string description, string address, string phoneNumber, string email)
         {
@@ -82,12 +83,13 @@ namespace hotel_site.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult EditHotelBuilding(int id)
         {
             return View(_hotelBuildingDb.GetEntity(id));
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult EditHotelBuilding(int id, string name, string description, string address, string phoneNumber, string email)
         {
@@ -108,12 +110,13 @@ namespace hotel_site.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteHotelBuilding(int id)
         {
             return View(id);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult DeleteHotelBuilding(int id, bool confirm)
         {
