@@ -33,8 +33,8 @@
                     <td><a asp-area="" asp-controller="Account" asp-action="Profile" asp-route-userId="@book.UserId">@book.UserName</a></td>
                     <td><a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@book.Room.HotelBuildingId">@book.Room.HotelBuilding.Name</a></td>
                     <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@book.RoomId">@book.Room.Number</a></td>
-                    <td>@book.MomentStart.ToString()</td>
-                    <td>@book.MomentEnd.ToString()</td>
+                    <td>@book.MomentStart.ToShortDateString()</td>
+                    <td>@book.MomentEnd.ToShortDateString()</td>
                     <td>@book.Price р.</td>
                     <td>@(book.Paid ? "Да" : "Нет")</td>
                     @if (User.IsInRole("admin") && !book.Paid)

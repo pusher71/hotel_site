@@ -35,7 +35,7 @@ namespace hotel_site.Models
 
         public bool IsActive()
         {
-            return DateTime.Now > MomentStart && DateTime.Now < MomentEnd;
+            return DateTime.Now > MomentStart && DateTime.Now < MomentEnd && Paid;
         }
     }
 }

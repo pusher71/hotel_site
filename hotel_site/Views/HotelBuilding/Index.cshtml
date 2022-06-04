@@ -62,10 +62,6 @@
                     <td><a asp-area="" asp-controller="Room" asp-action="RoomAvailableChange" asp-route-id="@room.Id">Сменить доступность</a></td>
                     <td><a asp-area="" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id">Удалить</a></td>
                 }
-                else
-                {
-                    <td>Требуется авторизация для смены доступности или удаления</td>
-                }
             </tr>
         }
     </table>

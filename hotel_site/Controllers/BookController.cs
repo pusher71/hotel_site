@@ -106,6 +106,7 @@ namespace hotel_site.Controllers
         public async Task<IActionResult> AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount)
         {
             Room room = _roomDb.GetEntity(roomId);
+            momentEnd = momentEnd.AddDays(0.9993);
 
             //проверить, является ли пользователь клиентом (не имеет бронь и не администратор)
             if (UserIsAdmin())
@@ -116,6 +117,8 @@ namespace hotel_site.Controllers
             //проверить промежуток времени
             if (momentStart >= momentEnd)
                 return View("ErrorPage", "Дата начала должна быть меньше даты окончания.");
+            if (momentStart < DateTime.Now.Date)
+                return View("ErrorPage", "Дата начала должна быть не раньше сегодняшнего дня.");
 
             //проверить доступность самой комнаты
             if (!room.IsAvailable)

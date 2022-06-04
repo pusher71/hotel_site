@@ -95,9 +95,16 @@ namespace hotel_site.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    await _signInManager.SignOutAsync();
+                    var sr = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    if ((await _signInManager.PasswordSignInAsync(user, model.Password, false, false)).Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                        return View("ErrorPage", "Не удалось выполнить вход в сисему");
                 }
-                ModelState.AddModelError("", "Данный логин уже занят. Используйте другой логин.");
+                ModelState.AddModelError("", "Неизвестная ошибка авторизации. Возможно, данный логин уже занят.");
                 return View(model);
             }
             return View(model);
