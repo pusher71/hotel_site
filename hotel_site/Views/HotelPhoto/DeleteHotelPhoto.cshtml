@@ -7,7 +7,7 @@
     <title>Room Photo</title>
 </head>
 <body>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
         <h2>Вы уверены, что хотите удалить фотографию номера?</h2>
         <form method="post">

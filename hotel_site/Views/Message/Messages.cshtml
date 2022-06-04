@@ -19,7 +19,7 @@
         </div>
         }
     </div>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
         <a asp-area="" asp-controller="Message" asp-action="AddMessage" asp-route-userToId ="@Model.UserToId">Написать сообщение</a>
     }

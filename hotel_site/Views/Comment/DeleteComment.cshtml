@@ -7,7 +7,7 @@
     <title>Comment</title>
 </head>
 <body>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <h2>Вы уверены, что хотите удалить отзыв?</h2>
         <form method="post">

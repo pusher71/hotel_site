@@ -13,7 +13,7 @@
     <p>Цена: @Model.Price</p>
     <p>Вместимость (чел.): @Model.MaxPersonCount</p>
     <p>Доступна: @(Model.IsAvailable ? "Да" : "Нет")</p>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <a asp-area="" asp-controller="Room" asp-action="EditRoom" asp-route-id="@Model.Id">Редактировать информацию</a>
     }
@@ -23,14 +23,14 @@
         {
             <div class="grid-photo-item">
                 <img class="grid-photo-image" src="data:image/jpeg;base64,@Convert.ToBase64String(roomPhoto.Image)" />
-                @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
                 {
                     <a class="grid-photo-delete-link" asp-area="" asp-controller="RoomPhoto" asp-action="DeleteRoomPhoto" asp-route-id="@roomPhoto.Id">Удалить фотографию</a>
                 }
             </div>
         }
     </div>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <a asp-area="" asp-controller="RoomPhoto" asp-action="AddRoomPhoto" asp-route-roomId="@Model.Id">Добавить фотографию</a>
     }

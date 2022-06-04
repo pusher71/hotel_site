@@ -12,7 +12,7 @@
     <p>Адрес: @Model.Address</p>
     <p>Контактный телефон: @Model.PhoneNumber</p>
     <p>E-mail: @Model.Email</p>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <a asp-area="" asp-controller="HotelBuilding" asp-action="EditHotelBuilding" asp-route-id="@Model.Id">Редактировать информацию</a>
     }
@@ -22,14 +22,14 @@
         {
             <div class="grid-photo-item">
                 <img class="grid-photo-image" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
-                @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
                 {
                     <a class="grid-photo-delete-link" asp-area="" asp-controller="HotelPhoto" asp-action="DeleteHotelPhoto" asp-route-id="@hotelPhoto.Id">Удалить фотографию</a>
                 }
             </div>
         }
     </div>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <a asp-area="" asp-controller="HotelPhoto" asp-action="AddHotelPhoto" asp-route-hotelBuildingId="@Model.Id">Добавить фотографию</a>
     }
@@ -57,7 +57,7 @@
                 <td>@room.MaxPersonCount</td>
                 <td>@(room.IsAvailable ? "Да" : "Нет")</td>
                 <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@room.Id">Подробнее...</a></td>
-                @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
                 {
                     <td><a asp-area="" asp-controller="Room" asp-action="RoomAvailableChange" asp-route-id="@room.Id">Сменить доступность</a></td>
                     <td><a asp-area="" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id">Удалить</a></td>
@@ -69,7 +69,7 @@
             </tr>
         }
     </table>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <a asp-area="" asp-controller="Room" asp-action="AddRoom" asp-route-hotelBuildingId="@Model.Id">Добавить номер</a>
     }

@@ -7,7 +7,7 @@
     <title>Room Photo</title>
 </head>
 <body>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
         <h2>Добавить фотографию номера</h2>
         <form method="post" enctype="multipart/form-data">

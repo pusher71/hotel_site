@@ -58,18 +58,17 @@ namespace hotel_site.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            if (await UserIsAdmin())
-                return View(_bookDb.GetEntityList());
-            else
-                return View(_bookDb.GetEntityList().Where(k => k.UserId == _userManager.GetUserId(User)));
+            return UserIsAdmin()
+                ? View(_bookDb.GetEntityList())
+                : View(_bookDb.GetEntityList().Where(k => k.UserId == _userManager.GetUserId(User)));
         }
 
         [Authorize]
-        public async Task<IActionResult> SelectHotelBuilding()
+        public IActionResult SelectHotelBuilding()
         {
-            if (await UserIsAdmin())
+            if (UserIsAdmin())
                 return View("ErrorPage", "Администратор не может забронировать номер.");
             if (UserIsResident())
                 return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
@@ -78,9 +77,9 @@ namespace hotel_site.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> SelectRoom(int hotelBuildingId)
+        public IActionResult SelectRoom(int hotelBuildingId)
         {
-            if (await UserIsAdmin())
+            if (UserIsAdmin())
                 return View("ErrorPage", "Администратор не может забронировать номер.");
             if (UserIsResident())
                 return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
@@ -89,9 +88,9 @@ namespace hotel_site.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> AddBook(int roomId)
+        public IActionResult AddBook(int roomId)
         {
-            if (await UserIsAdmin())
+            if (UserIsAdmin())
                 return View("ErrorPage", "Администратор не может забронировать номер.");
             if (UserIsResident())
                 return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
@@ -106,7 +105,7 @@ namespace hotel_site.Controllers
             Room room = _roomDb.GetEntity(roomId);
 
             //проверить, является ли пользователь клиентом (не имеет бронь и не администратор)
-            if (await UserIsAdmin())
+            if (UserIsAdmin())
                 return View("ErrorPage", "Администратор не может забронировать номер.");
             if (UserIsResident())
                 return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
@@ -168,9 +167,9 @@ namespace hotel_site.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<bool> UserIsAdmin()
+        public bool UserIsAdmin()
         {
-            return await _userManager.IsInRoleAsync(await _userManager.GetUserAsync(User), "admin");
+            return User.IsInRole("admin");
         }
 
         public bool UserIsResident()

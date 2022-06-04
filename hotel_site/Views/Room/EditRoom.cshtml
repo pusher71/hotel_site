@@ -7,7 +7,7 @@
     <title>Room</title>
 </head>
 <body>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
         <h2>Редактировать информацию о номере</h2>
         <form method="post">

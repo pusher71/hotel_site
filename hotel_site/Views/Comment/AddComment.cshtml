@@ -5,7 +5,7 @@
     <title>Comment</title>
 </head>
 <body>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
         <h2>Добавить отзыв</h2>
         <form method="post">

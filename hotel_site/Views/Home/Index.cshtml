@@ -12,7 +12,7 @@
     <p> </p>
     <p>Контактный телефон: @Model.HotelInfo.PhoneNumber</p>
     <p>E-mail: @Model.HotelInfo.Email</p>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <a asp-area="" asp-controller="Home" asp-action="EditHotelInfo">Редактировать информацию об отеле</a>
     }
@@ -26,7 +26,7 @@
                 <p>Контактный телефон: @hotelBuilding.PhoneNumber</p>
                 <p>E-mail: @hotelBuilding.Email</p>
                 <a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@hotelBuilding.Id">Подробнее...</a>
-                @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
                 {
                     <br />
                     <a asp-area="" asp-controller="HotelBuilding" asp-action="DeleteHotelBuilding" asp-route-id="@hotelBuilding.Id">Удалить корпус</a>
@@ -34,14 +34,9 @@
             </div>
         }
     </div>
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
         <a asp-area="" asp-controller="HotelBuilding" asp-action="AddHotelBuilding">Добавить корпус</a>
-    }
-    @if (@User.Identity != null && @User.Identity.IsAuthenticated)
-    {
-        <br />
-        <a asp-area="" asp-controller="Room" asp-action="BookRoom" asp-route-id="3">Забронировать номер с id=3</a>
     }
 </body>
 </html>
