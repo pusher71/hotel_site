@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Service>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Service</title>
+</head>
+<body>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <h1>Услуги</h1>
+        <table border=1>
+            <tr>
+                <th>Название</th>
+                <th>Цена</th>
+                <th> </th>
+                <th> </th>
+            </tr>
+            @foreach (Service service in Model)
+            {
+                <tr>
+                    <td>@service.Name</td>
+                    <td>@service.Price р.</td>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <td><a asp-area="" asp-controller="Service" asp-action="EditService" asp-route-id="@service.Id">Изменить</a></td>
+                        <td><a asp-area="" asp-controller="Service" asp-action="DeleteService" asp-route-id="@service.Id">Удалить</a></td>
+                    }
+                    else
+                    {
+                        <td><a asp-area="" asp-controller="ServiceOrder" asp-action="AddServiceOrder" asp-route-serviceId="@service.Id">Заказать</a></td>
+                        <td> </td>
+                    }
+                </tr>
+            }
+        </table>
+        @if (User.IsInRole("admin"))
+        {
+            <a asp-area="" asp-controller="Service" asp-action="AddService">Добавить услугу</a>
+            <br />
+        }
+    }
+    else
+    {
+        <h2>Требуется авторизация для просмотра услуг</h2>
+    }
+
+    <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
+</body>
+</html>

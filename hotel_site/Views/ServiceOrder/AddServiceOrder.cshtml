@@ -1,0 +1,25 @@
+﻿@model Service
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Service Order</title>
+</head>
+<body>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <h2>Вы уверены, что хотите заказать услугу @Model.Name за @Model.Price р.?</h2>
+        <form method="post">
+            <input type="hidden" name="serviceId" value="@Model.Id" />
+            <input type="submit" value="Заказать" />
+        </form>
+    }
+    else
+    {
+        <h2>Требуется авторизация для заказа услуги</h2>
+    }
+
+    <a asp-area="" asp-controller="Service" asp-action="Index">Назад</a>
+</body>
+</html>

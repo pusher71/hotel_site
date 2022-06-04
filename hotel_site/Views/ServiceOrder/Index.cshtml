@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ServiceOrder>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Service Order</title>
+</head>
+<body>
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    {
+        <h1>Заказы услуг</h1>
+        <table border=1>
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Номер</th>
+                <th>Название услуги</th>
+                <th>Цена</th>
+                <th> </th>
+            </tr>
+            @foreach (ServiceOrder serviceOrder in Model)
+            {
+                <tr>
+                    <td><a asp-area="" asp-controller="Account" asp-action="Profile" asp-route-userId="@serviceOrder.UserId">@serviceOrder.UserName</a></td>
+                    <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@serviceOrder.RoomId">@serviceOrder.Room.Number</a></td>
+                    <td>@serviceOrder.Service.Name</td>
+                    <td>@serviceOrder.Price р.</td>
+                    <td><a asp-area="" asp-controller="ServiceOrder" asp-action="DeleteServiceOrder" asp-route-id="@serviceOrder.Id">Удалить</a></td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h2>Требуется авторизация для просмотра заказов услуг</h2>
+    }
+
+    <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>
+</body>
+</html>

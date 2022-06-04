@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Service Order</title>
+</head>
+<body>
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    {
+        <h2>Вы уверены, что хотите удалить заказ услуги?</h2>
+        <form method="post">
+            <input type="hidden" name="id" value="@Model" />
+            <input type="submit" value="Удалить" />
+        </form>
+    }
+    else
+    {
+        <h2>Требуется авторизация для удаления заказа услуги</h2>
+    }
+
+    <a asp-area="" asp-controller="ServiceOrder" asp-action="Index">Назад</a>
+</body>
+</html>
