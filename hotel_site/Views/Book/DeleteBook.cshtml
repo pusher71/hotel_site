@@ -5,7 +5,7 @@
     <title>Book</title>
 </head>
 <body>
-    @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
         <h2>Вы уверены, что хотите удалить бронь?</h2>
         <form method="post">

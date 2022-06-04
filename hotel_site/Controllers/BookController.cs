@@ -178,6 +178,9 @@ namespace hotel_site.Controllers
         {
             try
             {
+                Book book = _bookDb.GetEntity(id);
+                if (book.IsActive() && !User.IsInRole("admin"))
+                    return View("ErrorPage", "Ошибка. Действующую бронь нельзя удалить.");
                 _bookDb.Delete(id);
                 return RedirectToAction("Index");
             }

@@ -52,13 +52,5 @@ namespace hotel_site
         {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=hotel_site;Username=postgres;Password=1234");
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Room)
-                .WithOne(i => i.Book)
-                .HasForeignKey<Room>(b => b.BookForeignKey);
-        }
     }
 }

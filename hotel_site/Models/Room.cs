@@ -14,8 +14,7 @@ namespace hotel_site.Models
         public bool IsAvailable { get; set; }
         public int HotelBuildingId { get; set; }
         public virtual HotelBuilding HotelBuilding { get; set; }
-        public int? BookForeignKey { get; set; }
-        public virtual Book Book { get; set; }
+        public virtual ICollection<Book> Books { get; set; } = new List<Book>();
         public virtual ICollection<RoomPhoto> RoomPhotos { get; set; } = new List<RoomPhoto>();
 
         public Room(int id, string number, string floor, float square, float price, int maxPersonCount, bool isAvailable)
@@ -35,16 +34,6 @@ namespace hotel_site.Models
                 throw new Exception("Ошибка. Комната уже присвоена отелю.");
             HotelBuilding = hotel;
             HotelBuildingId = hotel.Id;
-        }
-
-        public void SetBook(Book book)
-        {
-            if (Book != null)
-                throw new Exception("Ошибка. Бронь уже имеется.");
-            if (!IsAvailable)
-                throw new Exception("Ошибка. Комната недоступна.");
-            Book = book;
-            BookForeignKey = book.Id;
         }
     }
 }

@@ -52,6 +52,8 @@ namespace hotel_site.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoomId");
+
                     b.ToTable("Book");
                 });
 
@@ -190,9 +192,6 @@ namespace hotel_site.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("BookForeignKey")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Floor")
                         .HasColumnType("text");
 
@@ -215,9 +214,6 @@ namespace hotel_site.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookForeignKey")
-                        .IsUnique();
 
                     b.HasIndex("HotelBuildingId");
 
@@ -293,6 +289,17 @@ namespace hotel_site.Migrations
                     b.ToTable("ServiceOrder");
                 });
 
+            modelBuilder.Entity("hotel_site.Models.Book", b =>
+                {
+                    b.HasOne("hotel_site.Models.Room", "Room")
+                        .WithMany("Books")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
             modelBuilder.Entity("hotel_site.Models.HotelPhoto", b =>
                 {
                     b.HasOne("hotel_site.Models.HotelBuilding", "HotelBuilding")
@@ -306,17 +313,11 @@ namespace hotel_site.Migrations
 
             modelBuilder.Entity("hotel_site.Models.Room", b =>
                 {
-                    b.HasOne("hotel_site.Models.Book", "Book")
-                        .WithOne("Room")
-                        .HasForeignKey("hotel_site.Models.Room", "BookForeignKey");
-
                     b.HasOne("hotel_site.Models.HotelBuilding", "HotelBuilding")
                         .WithMany("Rooms")
                         .HasForeignKey("HotelBuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Book");
 
                     b.Navigation("HotelBuilding");
                 });
@@ -349,11 +350,6 @@ namespace hotel_site.Migrations
                     b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("hotel_site.Models.Book", b =>
-                {
-                    b.Navigation("Room");
-                });
-
             modelBuilder.Entity("hotel_site.Models.HotelBuilding", b =>
                 {
                     b.Navigation("HotelPhotos");
@@ -363,6 +359,8 @@ namespace hotel_site.Migrations
 
             modelBuilder.Entity("hotel_site.Models.Room", b =>
                 {
+                    b.Navigation("Books");
+
                     b.Navigation("RoomPhotos");
                 });
 #pragma warning restore 612, 618

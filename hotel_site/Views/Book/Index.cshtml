@@ -33,7 +33,7 @@
                     <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@book.RoomId">@book.Room.Number</a></td>
                     <td>@book.MomentStart.ToString()</td>
                     <td>@book.MomentEnd.ToString()</td>
-                    <td>@book.Price</td>
+                    <td>@book.Price р.</td>
                     <td>@(book.Paid ? "Да" : "Нет")</td>
                     @if (User.IsInRole("admin") && !book.Paid)
                     {
@@ -49,7 +49,7 @@
                     }
                     else
                     {
-                        <td>Действующую бронь удалить нельзя</td>
+                        <td>Действующую бронь нельзя удалить</td>
                     }
                 </tr>
             }

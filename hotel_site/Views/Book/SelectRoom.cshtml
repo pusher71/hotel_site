@@ -12,10 +12,14 @@
     {
         <table>
             <tr>
-                <td>@floor</td>
+                <td>@floor этаж</td>
                 @foreach (Room room in Model.Rooms[floor].OrderBy(k => k.Number))
                 {
-                    <td width="@(100 / Model.Rooms[floor].Count)%"><a asp-area="" asp-controller="Book" asp-action="AddBook" asp-route-roomId="@room.Id">@room.Number</a></td>
+                    <td width="@(100 / Model.Rooms[floor].Count)%">
+                        <a asp-area="" asp-controller="Book" asp-action="AddBook" asp-route-roomId="@room.Id">@room.Number</a>
+                        <br />
+                        <p>@room.Price р.</p>
+                    </td>
                 }
             </tr>
         </table>
