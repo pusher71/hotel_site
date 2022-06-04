@@ -39,6 +39,10 @@
                     {
                         <td><a asp-area="" asp-controller="Book" asp-action="MarkAsPaid" asp-route-id="@book.Id">Пометить бронь как оплаченную</a></td>
                     }
+                    else
+                    {
+                        <td> </td>
+                    }
                     @if (User.IsInRole("admin") || !book.IsActive())
                     {
                         <td><a asp-area="" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
