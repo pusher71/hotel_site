@@ -19,6 +19,12 @@ namespace hotel_site.Controllers
             _roleManager = roleManager;
         }
 
+        [Authorize]
+        public async Task<IActionResult> Profile(string userId)
+        {
+            return View(await _userManager.FindByIdAsync(userId));
+        }
+
         public ViewResult Login(string returnUrl)
         {
             return View(new LoginModel() { ReturnUrl = returnUrl });

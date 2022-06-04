@@ -96,7 +96,7 @@ namespace hotel_site.Controllers
             if (UserIsResident())
                 return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
 
-            return !UserIsResident() ? View(roomId) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
+            return !UserIsResident() ? View(_roomDb.GetEntity(roomId)) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
         }
 
         [Authorize]

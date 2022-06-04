@@ -41,6 +41,7 @@
             <th>Этаж</th>
             <th>Площадь</th>
             <th>Цена</th>
+            <th>Вместимость (чел.)</th>
             <th>Доступна</th>
             <th> </th>
             <th> </th>
@@ -53,6 +54,7 @@
                 <td>@room.Floor </td>
                 <td>@room.Square</td>
                 <td>@room.Price</td>
+                <td>@room.MaxPersonCount</td>
                 <td>@(room.IsAvailable ? "Да" : "Нет")</td>
                 <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@room.Id">Подробнее...</a></td>
                 @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))

@@ -27,8 +27,8 @@
             @foreach (Book book in Model)
             {
                 <tr>
-                    <td>@book.UserId</td>
-                    <td>@book.Room.Number </td>
+                    <td><a asp-area="" asp-controller="Account" asp-action="Profile" asp-route-userId="@book.UserId">@book.UserName</a></td>
+                    <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@book.RoomId">@book.Room.Number</a></td>
                     <td>@book.MomentStart.ToString()</td>
                     <td>@book.MomentEnd.ToString()</td>
                     <td>@book.Price</td>
