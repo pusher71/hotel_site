@@ -23,5 +23,8 @@ namespace hotel_site.Models.ViewModels
 
         [Required]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        public bool Agree { get; set; }
     }
 }

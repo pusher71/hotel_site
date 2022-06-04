@@ -74,6 +74,12 @@ namespace hotel_site.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!model.Agree)
+                {
+                    ModelState.AddModelError("Ошибка регистрации.", "Вы должны дать согласие на обработку персональных данных.");
+                    return View(model);
+                }
+
                 if (model.Password != model.PasswordConfirm)
                 {
                     ModelState.AddModelError("Ошибка регистрации.", "Пароли должны совпадать.");
@@ -91,10 +97,9 @@ namespace hotel_site.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Неизвестная ошибка регистрации.");
+                ModelState.AddModelError("", "Данный логин уже занят. Используйте другой логин.");
                 return View(model);
             }
-            ModelState.AddModelError("", "Неизвестная ошибка регистрации.");
             return View(model);
         }
     }
