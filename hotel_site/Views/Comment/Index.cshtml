@@ -12,9 +12,9 @@
         @foreach (Comment comment in Model)
         {
             <div class="grid-item">
-                <h3>@comment.UserId</h3>
+                <h3>@comment.UserName</h3>
+                <img src="~/rating/rating@(comment.Rating).png" />
                 <p>@comment.Text</p>
-                <p>Оценка: @comment.Rating</p>
                 <p>Добавлено: @comment.Timestamp.ToString()</p>
                 @if (@User.Identity != null && @User.Identity.IsAuthenticated && User.IsInRole("admin"))
                 {
