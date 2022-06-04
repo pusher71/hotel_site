@@ -125,7 +125,12 @@ namespace hotel_site.Controllers
                 User userTo = await _userManager.FindByIdAsync(userToId);
                 message.SetUsers(userFrom, userTo);
                 _messageDb.Create(message);
-                return RedirectToAction("Index");
+                return RedirectToAction("Messages", new
+                {
+                    UserFromId = userFrom.Id,
+                    UserToId = userToId,
+                    Messages = GetMessagesByUserIds(userFrom.Id, userToId),
+                });
             }
             catch (Exception e)
             {

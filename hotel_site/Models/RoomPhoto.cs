@@ -1,6 +1,6 @@
 ﻿namespace hotel_site.Models
 {
-    public class RoomPhoto
+    public class RoomPhoto : IPhoto
     {
         public int Id { get; set; }
         public byte[] Image { get; set; }
@@ -19,6 +19,11 @@
                 throw new System.Exception("Ошибка. Фотография уже присвоена комнате.");
             Room = room;
             RoomId = room.Id;
+        }
+
+        public byte[] GetImage()
+        {
+            return Image;
         }
     }
 }

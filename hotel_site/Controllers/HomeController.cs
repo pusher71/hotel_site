@@ -99,7 +99,10 @@ namespace hotel_site.Controllers
 
         public IActionResult Photo()
         {
-            return View(_hotelBuildingDb.GetEntity(1));
+            List<IPhoto> photos = new List<IPhoto>();
+            photos.AddRange(_hotelPhotoDb.GetEntityList());
+            photos.AddRange(_roomPhotoDb.GetEntityList());
+            return View(photos);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,4 +1,4 @@
-﻿@model HotelBuilding
+﻿@model IEnumerable<IPhoto>
 
 <!DOCTYPE html>
 <html>
@@ -8,9 +8,9 @@
 </head>
 <body>
     <div class="grid-photo-container">
-        @foreach (HotelPhoto hotelPhoto in Model.HotelPhotos)
+        @foreach (IPhoto photo in Model)
         {
-            <img class="grid-photo-item" src="data:image/jpeg;base64,@Convert.ToBase64String(hotelPhoto.Image)" />
+            <img class="grid-photo-item" src="data:image/jpeg;base64,@Convert.ToBase64String(photo.GetImage())" />
         }
     </div>
 </body>

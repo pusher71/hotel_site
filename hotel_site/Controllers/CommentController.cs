@@ -66,15 +66,21 @@ namespace hotel_site.Controllers
         [Authorize]
         public IActionResult AddComment()
         {
-            return View();
+            if (UserIsResident())
+                return View();
+            else
+                return View("ErrorPage", "Отзывы могут оставлять только постояльцы.");
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddComment(string text, int rating)
         {
+            if (!UserIsResident())
+                return View("ErrorPage", "Отзывы могут оставлять только постояльцы.");
             if (rating < 1 || rating > 5)
                 return View("ErrorPage", "Ошибка. Оценка должна быть в интервале [1..5].");
+
             try
             {
                 User user = await _userManager.GetUserAsync(User);
@@ -114,6 +120,20 @@ namespace hotel_site.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public bool UserIsAdmin()
+        {
+            return User.IsInRole("admin");
+        }
+
+        public bool UserIsResident()
+        {
+            bool activeBookExists = false;
+            foreach (Book book in _bookDb.GetEntityList())
+                if (book.UserId == _userManager.GetUserId(User) && book.IsActive())
+                    activeBookExists = true;
+            return activeBookExists;
         }
     }
 }

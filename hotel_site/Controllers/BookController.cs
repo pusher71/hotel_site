@@ -132,7 +132,7 @@ namespace hotel_site.Controllers
                 Book book = new Book(_bookDb.GetNewId(), momentStart, momentEnd, personCount, personCount * room.Price);
                 book.Link(await _userManager.GetUserAsync(User), room);
                 _bookDb.Create(book);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -155,7 +155,7 @@ namespace hotel_site.Controllers
                 Book book = _bookDb.GetEntity(id);
                 book.Paid = true;
                 _bookDb.Update(book);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
@@ -176,7 +176,7 @@ namespace hotel_site.Controllers
             try
             {
                 _bookDb.Delete(id);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
