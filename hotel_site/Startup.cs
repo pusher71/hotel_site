@@ -56,11 +56,11 @@ namespace hotel_site
 
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-            services.AddHttpsRedirection(options =>
-            {
-                options.RedirectStatusCode = 307;
-                options.HttpsPort = 44365;
-            });
+            //services.AddHttpsRedirection(options =>
+            //{
+            //    options.RedirectStatusCode = 307;
+            //    options.HttpsPort = 44365;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +75,7 @@ namespace hotel_site
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 

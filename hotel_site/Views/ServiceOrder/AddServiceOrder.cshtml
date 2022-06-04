@@ -9,7 +9,7 @@
 <body>
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-        <h2>Вы уверены, что хотите заказать услугу @Model.Name за @Model.Price р.?</h2>
+        <h2>Вы уверены, что хотите заказать услугу "@Model.Name" за @Model.Price р.?</h2>
         <form method="post">
             <input type="hidden" name="serviceId" value="@Model.Id" />
             <input type="submit" value="Заказать" />

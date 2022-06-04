@@ -47,10 +47,5 @@ namespace hotel_site
             _ = Service.ToList();
             _ = ServiceOrder.ToList();
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=hotel_site;Username=postgres;Password=1234");
-        }
     }
 }
