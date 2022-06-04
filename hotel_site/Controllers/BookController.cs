@@ -132,7 +132,7 @@ namespace hotel_site.Controllers
 
             try
             {
-                Book book = new Book(_bookDb.GetNewId(), momentStart, momentEnd, personCount, personCount * room.Price);
+                Book book = new Book(_bookDb.GetNewId(), momentStart, momentEnd, personCount, room.Price);
                 book.Link(await _userManager.GetUserAsync(User), room);
                 _bookDb.Create(book);
                 return RedirectToAction("Index");

@@ -19,13 +19,13 @@
             <input type="text" name="floor" value="@Model.Floor" />
             <br />
             <label>Площадь</label>
-            <input type="text" name="square" min="0" value="@Model.Square" />
+            <input type="number" name="square" min="0" value="@Model.Square" />
             <br />
             <label>Цена (р.)</label>
-            <input type="text" name="price" min="0" value="@Model.Price" />
+            <input type="number" name="price" min="0" value="@Model.Price" />
             <br />
             <label>Вместимость (чел.)</label>
-            <input type="text" name="maxPersonCount" min="1" value="@Model.MaxPersonCount" />
+            <input type="number" name="maxPersonCount" min="1" value="@Model.MaxPersonCount" />
             <br />
             <label>Доступна</label>
             <input type="checkbox" name="isAvailable" checked="@(Model.IsAvailable ? true : false)" />

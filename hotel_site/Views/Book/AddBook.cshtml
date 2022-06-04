@@ -13,10 +13,10 @@
         <form method="post">
             <input type="hidden" name="roomId" value="@Model.Id" />
             <label>Дата начала</label>
-            <input type="datetime" name="momentStart" value="" />
+            <input type="date" name="momentStart" value="" />
             <br />
             <label>Дата окончания</label>
-            <input type="datetime" name="momentEnd" value="" />
+            <input type="date" name="momentEnd" value="" />
             <br />
             <label>Количество людей</label>
             <input type="number" name="personCount" min="1" max="@Model.MaxPersonCount" value="1" />
