@@ -18,6 +18,7 @@ namespace hotel_site
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Message> Message { get; set; }
         public DbSet<Service> Service { get; set; }
+        public DbSet<ServiceOrder> ServiceOrder { get; set; }
 
         public DataContext()
         {
@@ -29,6 +30,8 @@ namespace hotel_site
             _ = Book.ToList();
             _ = Comment.ToList();
             _ = Message.ToList();
+            _ = Service.ToList();
+            _ = ServiceOrder.ToList();
         }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -41,6 +44,8 @@ namespace hotel_site
             _ = Book.ToList();
             _ = Comment.ToList();
             _ = Message.ToList();
+            _ = Service.ToList();
+            _ = ServiceOrder.ToList();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

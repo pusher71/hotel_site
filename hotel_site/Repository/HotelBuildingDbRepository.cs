@@ -14,30 +14,6 @@ namespace hotel_site.Repository
         public HotelBuildingDbRepository(DataContext dataContext)
         {
             _context = dataContext;
-            if (_context.HotelBuilding.Any()) return;
-
-            //добавление корпусов отеля
-            HotelBuilding hotelBuilding1 = new HotelBuilding(1,
-                "Корпус 1",
-                "",
-                "ул. Калужская, д. 13",
-                "8-909-998-87-01",
-                "eastwater1@yandex.ru");
-            HotelBuilding hotelBuilding2 = new HotelBuilding(2,
-                "Корпус 2",
-                "",
-                "ул. Калужская, д. 13",
-                "8-909-998-87-02",
-                "eastwater2@yandex.ru");
-            HotelBuilding hotelBuilding3 = new HotelBuilding(3,
-                "Корпус 3",
-                "",
-                "ул. Калужская, д. 13",
-                "8-909-998-87-03",
-                "eastwater3@yandex.ru");
-
-            _context.HotelBuilding.AddRange(hotelBuilding1, hotelBuilding2, hotelBuilding3);
-            _context.SaveChanges();
         }
 
         public IEnumerable<HotelBuilding> GetEntityList()

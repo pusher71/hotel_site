@@ -30,6 +30,7 @@ namespace hotel_site.Controllers
         private readonly IRepository<Comment> _commentDb;
         private readonly IRepository<Message> _messageDb;
         private readonly IRepository<Service> _serviceDb;
+        private readonly IRepository<ServiceOrder> _serviceOrderDb;
 
         public HotelPhotoController(ILogger<HotelPhotoController> logger,
             UserManager<User> userManager,
@@ -41,7 +42,8 @@ namespace hotel_site.Controllers
             BookDbRepository bookDb,
             CommentDbRepository commentDb,
             MessageDbRepository messageDb,
-            ServiceDbRepository serviceDb)
+            ServiceDbRepository serviceDb,
+            ServiceOrderDbRepository serviceOrderDb)
         {
             _logger = logger;
             _userManager = userManager;
@@ -54,6 +56,7 @@ namespace hotel_site.Controllers
             _commentDb = commentDb;
             _messageDb = messageDb;
             _serviceDb = serviceDb;
+            _serviceOrderDb = serviceOrderDb;
         }
 
         [Authorize(Roles = "admin")]

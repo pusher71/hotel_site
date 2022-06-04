@@ -29,7 +29,7 @@ namespace hotel_site.Repository
         public void Create(RoomPhoto entity)
         {
             if (_context.RoomPhoto.Contains(entity))
-                throw new Exception("Ошибка. Данная фотография отеля уже существует.");
+                throw new Exception("Ошибка. Данная фотография номера уже существует.");
             _context.RoomPhoto.Add(entity);
             _context.SaveChanges();
         }

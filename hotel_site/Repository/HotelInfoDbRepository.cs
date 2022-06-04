@@ -18,10 +18,10 @@ namespace hotel_site.Repository
 
             //добавление информации об отеле
             HotelInfo hotelInfo = new HotelInfo(1,
-                "Восточные воды",
-                "Отель был основан в 1969 году и на данный момент является одним из самых популярных.",
-                "8-909-998-87-76",
-                "eastwater@yandex.ru");
+                "[название отеля]",
+                "[описание отеля]",
+                "[контактный телефон]",
+                "[e-mail]");
 
             _context.HotelInfo.Add(hotelInfo);
 

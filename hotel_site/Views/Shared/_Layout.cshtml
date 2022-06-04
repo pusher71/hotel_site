@@ -10,11 +10,21 @@
 <body>
     <div class="flex-container">
         <div class="arrowsidemenu">
-            @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 <a asp-area="" asp-controller="Book" asp-action="Index">Бронирование номеров</a>
                 <br />
+                <br />
                 <a asp-area="" asp-controller="Message" asp-action="Index">Чат</a>
+                <br />
+                <br />
+                <a asp-area="" asp-controller="Service" asp-action="Index">Дополнительные услуги</a>
+                @if (User.IsInRole("admin"))
+                {
+                    <br />
+                    <br />
+                    <a asp-area="" asp-controller="ServiceOrder" asp-action="Index">Просмотреть заказы услуг</a>
+                }
             }
         </div>
         <div>
@@ -32,7 +42,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Photo">Фото</a>
                                 </li>
-                                @if (@User.Identity != null && @User.Identity.IsAuthenticated)
+                                @if (User.Identity != null && User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="/">Выйти</a>

@@ -12,7 +12,7 @@ namespace hotel_site.Models
         public bool Paid { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
-        public int? RoomId { get; set; }
+        public int RoomId { get; set; }
         public virtual Room Room { get; set; }
 
         public Book(int id, DateTime momentStart, DateTime momentEnd, int personCount, float price)

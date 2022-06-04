@@ -39,6 +39,7 @@ namespace hotel_site
             services.AddScoped<CommentDbRepository>();
             services.AddScoped<MessageDbRepository>();
             services.AddScoped<ServiceDbRepository>();
+            services.AddScoped<ServiceOrderDbRepository>();
 
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
             services.AddIdentity<User, IdentityRole>()

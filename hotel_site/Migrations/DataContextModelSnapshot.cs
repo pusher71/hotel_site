@@ -41,7 +41,7 @@ namespace hotel_site.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<int?>("RoomId")
+                    b.Property<int>("RoomId")
                         .HasColumnType("integer");
 
                     b.Property<string>("UserId")
@@ -262,6 +262,37 @@ namespace hotel_site.Migrations
                     b.ToTable("Service");
                 });
 
+            modelBuilder.Entity("hotel_site.Models.ServiceOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ServiceOrder");
+                });
+
             modelBuilder.Entity("hotel_site.Models.HotelPhoto", b =>
                 {
                     b.HasOne("hotel_site.Models.HotelBuilding", "HotelBuilding")
@@ -299,6 +330,23 @@ namespace hotel_site.Migrations
                         .IsRequired();
 
                     b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("hotel_site.Models.ServiceOrder", b =>
+                {
+                    b.HasOne("hotel_site.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+
+                    b.HasOne("hotel_site.Models.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("hotel_site.Models.Book", b =>
