@@ -141,6 +141,29 @@ namespace hotel_site.Controllers
         }
 
         [Authorize]
+        public IActionResult MarkAsPaid(int id)
+        {
+            return View(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult MarkAsPaid(int id, bool confirm)
+        {
+            try
+            {
+                Book book = _bookDb.GetEntity(id);
+                book.Paid = true;
+                _bookDb.Update(book);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                return View("ErrorPage", e.Message);
+            }
+        }
+
+        [Authorize]
         public IActionResult DeleteBook(int id)
         {
             return View(id);

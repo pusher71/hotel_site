@@ -9,6 +9,7 @@ namespace hotel_site.Models
         public DateTime MomentEnd { get; set; }
         public int PersonCount { get; set; }
         public float Price { get; set; }
+        public bool Paid { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
         public int? RoomId { get; set; }
@@ -21,6 +22,7 @@ namespace hotel_site.Models
             MomentEnd = momentEnd;
             PersonCount = personCount;
             Price = price;
+            Paid = false;
         }
 
         public void Link(User user, Room room)

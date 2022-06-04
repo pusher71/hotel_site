@@ -1,0 +1,19 @@
+﻿@model IEnumerable<HotelBuilding>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Book</title>
+</head>
+<body>
+    <h2>Выберите корпус отеля</h2>
+    @foreach (HotelBuilding hotelBuilding in Model)
+    {
+        <a asp-area="" asp-controller="Book" asp-action="SelectRoom" asp-route-hotelBuildingId="@hotelBuilding.Id">@hotelBuilding.Name</a>
+        <br />
+    }
+
+    <a asp-area="" asp-controller="Book" asp-action="Index">Назад</a>
+</body>
+</html>

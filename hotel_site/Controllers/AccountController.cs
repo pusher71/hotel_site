@@ -22,7 +22,11 @@ namespace hotel_site.Controllers
         [Authorize]
         public async Task<IActionResult> Profile(string userId)
         {
-            return View(await _userManager.FindByIdAsync(userId));
+            User user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+                return View(user);
+            else
+                return View("ErrorPage", "Ошибка. Пользователь не найден.");
         }
 
         public ViewResult Login(string returnUrl)

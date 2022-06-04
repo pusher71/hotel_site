@@ -22,6 +22,8 @@
                 <th>Дата начала</th>
                 <th>Дата окончания</th>
                 <th>Цена</th>
+                <th>Оплачено</th>
+                <th> </th>
                 <th> </th>
             </tr>
             @foreach (Book book in Model)
@@ -32,6 +34,11 @@
                     <td>@book.MomentStart.ToString()</td>
                     <td>@book.MomentEnd.ToString()</td>
                     <td>@book.Price</td>
+                    <td>@(book.Paid ? "Да" : "Нет")</td>
+                    @if (User.IsInRole("admin") && !book.Paid)
+                    {
+                        <td><a asp-area="" asp-controller="Book" asp-action="MarkAsPaid" asp-route-id="@book.Id">Пометить бронь как оплаченную</a></td>
+                    }
                     @if (User.IsInRole("admin") || !book.IsActive())
                     {
                         <td><a asp-area="" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
