@@ -4,24 +4,24 @@ namespace hotel_site.Models.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Логин не указан")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Пароль не указан")]
         [UIHint("password")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Пароль не указан")]
         [UIHint("password")]
         public string PasswordConfirm { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Имя не указано")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Фамилия не указана")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Номер телефона не указан")]
         public string PhoneNumber { get; set; }
 
         [Required]
