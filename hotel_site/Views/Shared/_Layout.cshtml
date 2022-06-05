@@ -12,18 +12,12 @@
         <div class="arrowsidemenu">
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                <a asp-area="" asp-controller="Book" asp-action="Index">Бронирование номеров</a>
-                <br />
-                <br />
-                <a asp-area="" asp-controller="Message" asp-action="Index">Чат</a>
-                <br />
-                <br />
-                <a asp-area="" asp-controller="Service" asp-action="Index">Дополнительные услуги</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Бронирование номеров</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Message" asp-action="Index">Чат</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Service" asp-action="Index">Дополнительные услуги</a>
                 @if (User.IsInRole("admin"))
                 {
-                    <br />
-                    <br />
-                    <a asp-area="" asp-controller="ServiceOrder" asp-action="Index">Просмотреть заказы услуг</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="ServiceOrder" asp-action="Index">Просмотреть заказы услуг</a>
                 }
             }
         </div>
