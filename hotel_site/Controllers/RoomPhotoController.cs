@@ -19,44 +19,13 @@ namespace hotel_site.Controllers
 {
     public class RoomPhotoController : Controller
     {
-        private readonly ILogger<RoomPhotoController> _logger;
-        private readonly UserManager<User> _userManager;
-        private readonly IRepository<HotelInfo> _hotelInfoDb;
-        private readonly IRepository<HotelBuilding> _hotelBuildingDb;
-        private readonly IRepository<HotelPhoto> _hotelPhotoDb;
         private readonly IRepository<Room> _roomDb;
         private readonly IRepository<RoomPhoto> _roomPhotoDb;
-        private readonly IRepository<Book> _bookDb;
-        private readonly IRepository<Comment> _commentDb;
-        private readonly IRepository<Message> _messageDb;
-        private readonly IRepository<Service> _serviceDb;
-        private readonly IRepository<ServiceOrder> _serviceOrderDb;
 
-        public RoomPhotoController(ILogger<RoomPhotoController> logger,
-            UserManager<User> userManager,
-            HotelInfoDbRepository hotelInfoDb,
-            HotelBuildingDbRepository hotelBuildingDb,
-            HotelPhotoDbRepository hotelPhotoDb,
-            RoomDbRepository roomDb,
-            RoomPhotoDbRepository roomPhotoDb,
-            BookDbRepository bookDb,
-            CommentDbRepository commentDb,
-            MessageDbRepository messageDb,
-            ServiceDbRepository serviceDb,
-            ServiceOrderDbRepository serviceOrderDb)
+        public RoomPhotoController(RoomDbRepository roomDb, RoomPhotoDbRepository roomPhotoDb)
         {
-            _logger = logger;
-            _userManager = userManager;
-            _hotelInfoDb = hotelInfoDb;
-            _hotelBuildingDb = hotelBuildingDb;
-            _hotelPhotoDb = hotelPhotoDb;
             _roomDb = roomDb;
             _roomPhotoDb = roomPhotoDb;
-            _bookDb = bookDb;
-            _commentDb = commentDb;
-            _messageDb = messageDb;
-            _serviceDb = serviceDb;
-            _serviceOrderDb = serviceOrderDb;
         }
 
         [Authorize(Roles = "admin")]

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using hotel_site.Models;
 
@@ -44,7 +43,7 @@ namespace hotel_site.Repository
         {
             Book entity = GetEntity(id);
             if (!_context.Book.Contains(entity))
-                throw new Exception("Ошибка. Данная фотография отеля не существует.");
+                throw new Exception("Ошибка. Данная бронь не существует.");
             _context.Book.Remove(entity);
             _context.SaveChanges();
         }

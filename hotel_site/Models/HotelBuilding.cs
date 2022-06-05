@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using hotel_site.Models.ViewModels;
+﻿using System.Collections.Generic;
 
 namespace hotel_site.Models
 {
