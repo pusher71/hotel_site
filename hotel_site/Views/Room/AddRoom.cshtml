@@ -12,22 +12,22 @@
         <h2>Добавить номер</h2>
         <form method="post">
             <input type="hidden" name="hotelBuildingId" value="@Model" />
-            <label>Номер</label>
+            <label>Номер:</label>
             <input type="text" name="number" />
             <br />
-            <label>Этаж</label>
+            <label>Этаж:</label>
             <input type="text" name="floor" />
             <br />
-            <label>Площадь, м2</label>
-            <input type="number" name="square" min="0" />
+            <label>Площадь, м2:</label>
+            <input type="number" name="square" min="1" />
             <br />
-            <label>Цена, р.</label>
+            <label>Цена, р.:</label>
             <input type="number" name="price" min="0" />
             <br />
-            <label>Вместимость (чел.)</label>
+            <label>Вместимость (чел.):</label>
             <input type="number" name="maxPersonCount" min="1" />
             <br />
-            <label>Доступна</label>
+            <label>Доступна:</label>
             <input type="checkbox" name="isAvailable" />
             <br />
             <input type="submit" value="Добавить" />

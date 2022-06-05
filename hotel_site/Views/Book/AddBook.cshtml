@@ -12,13 +12,13 @@
         <h2>Забронировать номер</h2>
         <form method="post">
             <input type="hidden" name="roomId" value="@Model.Id" />
-            <label>Дата начала</label>
+            <label>Дата начала:</label>
             <input type="date" name="momentStart" value="" />
             <br />
-            <label>Дата окончания</label>
+            <label>Дата окончания:</label>
             <input type="date" name="momentEnd" value="" />
             <br />
-            <label>Количество людей</label>
+            <label>Количество людей:</label>
             <input type="number" name="personCount" min="1" max="@Model.MaxPersonCount" value="1" />
             <br />
             <input type="submit" value="Забронировать" />

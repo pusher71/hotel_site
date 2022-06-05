@@ -7,13 +7,13 @@
 <body>
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-        <h2>Добавить отзыв</h2>
+        <h2>Оставить отзыв</h2>
         <form method="post">
-            <label>Текст</label>
+            <label>Текст отзыва:</label>
             <br />
             <textarea name="text" cols="40" rows="5"></textarea>
             <br />
-            <label>Оценка</label>
+            <label>Оценка:</label>
             <input type="number" name="rating" min="1" max="5" value="5" />
             <br />
             <input type="submit" value="Отправить" />
@@ -21,7 +21,7 @@
     }
     else
     {
-        <h2>Отзывы могут оставлять только постояльцы</h2>
+        <h2>Требуется авторизация для оставления отзыва</h2>
     }
 
     <a asp-area="" asp-controller="Comment" asp-action="Index">Назад</a>

@@ -12,22 +12,22 @@
         <h2>Редактировать информацию о номере</h2>
         <form method="post">
             <input type="hidden" name="id" value="@Model.Id" />
-            <label>Номер</label>
+            <label>Номер:</label>
             <input type="text" name="number" value="@Model.Number" />
             <br />
-            <label>Этаж</label>
+            <label>Этаж:</label>
             <input type="text" name="floor" value="@Model.Floor" />
             <br />
-            <label>Площадь, м2</label>
-            <input type="number" name="square" min="0" value="@Model.Square" />
+            <label>Площадь, м2:</label>
+            <input type="number" name="square" min="1" value="@Model.Square" />
             <br />
-            <label>Цена, р.</label>
+            <label>Цена, р.:</label>
             <input type="number" name="price" min="0" value="@Model.Price" />
             <br />
-            <label>Вместимость (чел.)</label>
+            <label>Вместимость (чел.):</label>
             <input type="number" name="maxPersonCount" min="1" value="@Model.MaxPersonCount" />
             <br />
-            <label>Доступна</label>
+            <label>Доступна:</label>
             <input type="checkbox" name="isAvailable" checked="@(Model.IsAvailable ? true : false)" />
             <br />
             <input type="submit" value="Обновить" />

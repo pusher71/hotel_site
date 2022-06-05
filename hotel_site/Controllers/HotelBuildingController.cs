@@ -74,6 +74,17 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult AddHotelBuilding(string name, string description, string address, string phoneNumber, string email)
         {
+            if (name == null)
+                return View("ErrorPage", "Название не должно быть пустым.");
+            if (description == null)
+                return View("ErrorPage", "Описание не должно быть пустым.");
+            if (address == null)
+                return View("ErrorPage", "Адрес не должен быть пустым.");
+            if (phoneNumber == null)
+                return View("ErrorPage", "Контактный телефон не должен быть пустым.");
+            if (email == null)
+                return View("ErrorPage", "E-mail не должен быть пустым.");
+
             try
             {
                 HotelBuilding hotelBuilding = new HotelBuilding(_hotelBuildingDb.GetNewId(), name, description, address, phoneNumber, email);
@@ -96,6 +107,17 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult EditHotelBuilding(int id, string name, string description, string address, string phoneNumber, string email)
         {
+            if (name == null)
+                return View("ErrorPage", "Название не должно быть пустым.");
+            if (description == null)
+                return View("ErrorPage", "Описание не должно быть пустым.");
+            if (address == null)
+                return View("ErrorPage", "Адрес не должен быть пустым.");
+            if (phoneNumber == null)
+                return View("ErrorPage", "Контактный телефон не должен быть пустым.");
+            if (email == null)
+                return View("ErrorPage", "E-mail не должен быть пустым.");
+
             try
             {
                 HotelBuilding hotelBuilding = _hotelBuildingDb.GetEntity(id);

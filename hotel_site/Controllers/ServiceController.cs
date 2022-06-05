@@ -74,6 +74,9 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult AddService(string name, float price)
         {
+            if (name == null)
+                return View("ErrorPage", "Название услуги не должно быть пустым.");
+
             try
             {
                 Service service = new Service(_serviceDb.GetNewId(), name, price);
@@ -96,6 +99,9 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult EditService(int id, string name, float price)
         {
+            if (name == null)
+                return View("ErrorPage", "Название услуги не должно быть пустым.");
+
             try
             {
                 Service service = _serviceDb.GetEntity(id);

@@ -83,6 +83,8 @@ namespace hotel_site.Controllers
                 return View("ErrorPage", "Отзывы могут оставлять только постояльцы.");
             if (rating < 1 || rating > 5)
                 return View("ErrorPage", "Ошибка. Оценка должна быть в интервале [1..5].");
+            if (text == "")
+                return View("ErrorPage", "Текст комментария не должен быть пустым.");
 
             try
             {

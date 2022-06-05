@@ -84,6 +84,15 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult EditHotelInfo(string name, string description, string phoneNumber, string email)
         {
+            if (name == null)
+                return View("ErrorPage", "Название не должно быть пустым.");
+            if (description == null)
+                return View("ErrorPage", "Описание не должно быть пустым.");
+            if (phoneNumber == null)
+                return View("ErrorPage", "Контактный телефон не должен быть пустым.");
+            if (email == null)
+                return View("ErrorPage", "E-mail не должен быть пустым.");
+
             try
             {
                 HotelInfo hotelInfo = _hotelInfoDb.GetEntity(1);

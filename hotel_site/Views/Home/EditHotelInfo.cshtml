@@ -11,16 +11,17 @@
     {
         <h2>Редактировать информацию об отеле</h2>
         <form method="post">
-            <label>Название</label>
+            <label>Название:</label>
             <input type="text" name="name" value="@Model.Name" />
             <br />
-            <label>Описание</label>
-            <input type="text" name="description" value="@Model.Description" />
+            <label>Описание:</label>
             <br />
-            <label>Контактный телефон</label>
+            <textarea name="description" cols="40" rows="5" value="@Model.Description">@Model.Description</textarea>
+            <br />
+            <label>Контактный телефон:</label>
             <input type="text" name="phoneNumber" value="@Model.PhoneNumber" />
             <br />
-            <label>E-mail</label>
+            <label>E-mail:</label>
             <input type="text" name="email" value="@Model.Email" />
             <br />
             <input type="submit" value="Обновить" />

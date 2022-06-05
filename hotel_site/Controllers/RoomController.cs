@@ -74,6 +74,11 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult AddRoom(int hotelBuildingId, string number, string floor, float square, float price, int maxPersonCount, string isAvailable)
         {
+            if (number == null)
+                return View("ErrorPage", "Название номера не должно быть пустым.");
+            if (floor == null)
+                return View("ErrorPage", "Этаж не должен быть пустым.");
+
             try
             {
                 Room room = new Room(_roomDb.GetNewId(), number, floor, square, price, maxPersonCount, isAvailable == "on"); //созданный номер
@@ -99,6 +104,11 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult EditRoom(int id, string number, string floor, float square, float price, int maxPersonCount, string isAvailable)
         {
+            if (number == null)
+                return View("ErrorPage", "Название номера не должно быть пустым.");
+            if (floor == null)
+                return View("ErrorPage", "Этаж не должен быть пустым.");
+
             try
             {
                 Room room = _roomDb.GetEntity(id);
