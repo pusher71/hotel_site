@@ -1,0 +1,34 @@
+﻿@model int
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Book</title>
+</head>
+<body>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <h2>Забронировать номер</h2>
+        <form method="post">
+            <input type="hidden" name="hotelBuildingId" value="@Model" />
+            <label>Дата начала:</label>
+            <input type="date" name="momentStart" value="" />
+            <br />
+            <label>Дата окончания:</label>
+            <input type="date" name="momentEnd" value="" />
+            <br />
+            <label>Количество людей:</label>
+            <input type="number" name="personCount" min="1" value="1" />
+            <br />
+            <input type="submit" value="Далее" />
+        </form>
+    }
+    else
+    {
+        <h2>Требуется авторизация для бронирования номера</h2>
+    }
+
+    <a asp-area="" asp-controller="Book" asp-action="SelectHotelBuilding">Назад</a>
+</body>
+</html>

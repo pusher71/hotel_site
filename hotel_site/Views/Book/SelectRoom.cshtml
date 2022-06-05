@@ -7,24 +7,36 @@
     <title>Book</title>
 </head>
 <body>
-    <h2>Выберите номер</h2>
-    @foreach (string floor in Model.RoomFloors.OrderBy(k => -int.Parse(k)))
+    @if (Model.RoomFloors.Count > 0)
     {
-        <table>
-            <tr>
-                <td>@floor этаж</td>
-                @foreach (Room room in Model.Rooms[floor].OrderBy(k => k.Number))
-                {
-                    <td width="@(100 / Model.Rooms[floor].Count)%">
-                        <a asp-area="" asp-controller="Book" asp-action="AddBook" asp-route-roomId="@room.Id">@room.Number</a>
-                        <br />
-                        <p>@room.Price р.</p>
-                    </td>
-                }
-            </tr>
-        </table>
+        <h2>Выберите номер</h2>
+        @foreach (string floor in Model.RoomFloors.OrderBy(k => -int.Parse(k)))
+        {
+            <table>
+                <tr>
+                    <td>@floor этаж</td>
+                    @foreach (Room room in Model.Rooms[floor].OrderBy(k => k.Number))
+                    {
+                        <td width="@(100 / Model.Rooms[floor].Count)%">
+                            <form method="post">
+                                <input type="hidden" name="roomId" value="@room.Id" />
+                                <input type="hidden" name="momentStart" value="@Model.BookRequirements.MomentStart" />
+                                <input type="hidden" name="momentEnd" value="@Model.BookRequirements.MomentEnd" />
+                                <input type="hidden" name="personCount" value="@Model.BookRequirements.PersonCount" />
+                                <input type="submit" value="@room.Number" />
+                            </form>
+                            <p>@(room.Price * Model.BookRequirements.NightCount * Model.BookRequirements.PersonCount) р.</p>
+                        </td>
+                    }
+                </tr>
+            </table>
+        }
+    }
+    else
+    {
+        <h1><font color="red">Нет доступных номеров, удовлетворяющих требованиям.</font></h1>
     }
 
-    <a asp-area="" asp-controller="Book" asp-action="SelectHotelBuilding" asp-route-hotelBuildingId="@Model.HotelBuilding.Id">Назад</a>
+    <a href='javascript:history.go(-1)'>Назад</a>
 </body>
 </html>

@@ -138,9 +138,10 @@ namespace hotel_site.Controllers
 
         public bool UserIsResident()
         {
+            string userId = _userManager.GetUserId(User);
             bool activeBookExists = false;
             foreach (Book book in _bookDb.GetEntityList())
-                if (book.UserId == _userManager.GetUserId(User) && book.IsActive())
+                if (book.UserId == userId && book.IsActive())
                     activeBookExists = true;
             return activeBookExists;
         }

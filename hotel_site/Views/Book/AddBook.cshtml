@@ -1,4 +1,4 @@
-﻿@model Room
+﻿@model BookNewModel
 
 <!DOCTYPE html>
 <html>
@@ -9,18 +9,17 @@
 <body>
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-        <h2>Забронировать номер</h2>
+        <h2>Подтвердите бронирование номера</h2>
+        <p>Корпус: @Model.Room.HotelBuilding.Name</p>
+        <p>Номер: @Model.Room.Number</p>
+        <p>Количество человек: @Model.PersonCount</p>
+        <p>Дата начала: @Model.MomentStart.ToShortDateString()</p>
+        <p>Дата окончания: @Model.MomentEnd.ToShortDateString()</p>
         <form method="post">
-            <input type="hidden" name="roomId" value="@Model.Id" />
-            <label>Дата начала:</label>
-            <input type="date" name="momentStart" value="" />
-            <br />
-            <label>Дата окончания:</label>
-            <input type="date" name="momentEnd" value="" />
-            <br />
-            <label>Количество людей:</label>
-            <input type="number" name="personCount" min="1" max="@Model.MaxPersonCount" value="1" />
-            <br />
+            <input type="hidden" name="roomId" value="@Model.Room.Id" />
+            <input type="hidden" name="momentStart" value="@Model.MomentStart" />
+            <input type="hidden" name="momentEnd" value="@Model.MomentEnd" />
+            <input type="hidden" name="personCount" value="@Model.PersonCount" />
             <input type="submit" value="Забронировать" />
         </form>
     }
@@ -29,6 +28,6 @@
         <h2>Требуется авторизация для бронирования номера</h2>
     }
 
-    <a asp-area="" asp-controller="Book" asp-action="SelectRoom" asp-route-hotelBuildingId="@Model.HotelBuildingId">Назад</a>
+    <a href='javascript:history.go(-1)'>Назад</a>
 </body>
 </html>

@@ -71,71 +71,79 @@ namespace hotel_site.Controllers
         [Authorize]
         public IActionResult SelectHotelBuilding()
         {
-            if (UserIsAdmin())
-                return View("ErrorPage", "Администратор не может забронировать номер.");
-            if (UserIsResident())
-                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
-
-            return !UserIsResident() ? View(_hotelBuildingDb.GetEntityList()) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
+            return View(_hotelBuildingDb.GetEntityList());
         }
 
         [Authorize]
-        public IActionResult SelectRoom(int hotelBuildingId)
+        public IActionResult SelectRequirements(int hotelBuildingId)
         {
-            if (UserIsAdmin())
-                return View("ErrorPage", "Администратор не может забронировать номер.");
-            if (UserIsResident())
-                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
-
-            return !UserIsResident() ? View(new RoomsViewData(_hotelBuildingDb.GetEntity(hotelBuildingId))) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
-        }
-
-        [Authorize]
-        public IActionResult AddBook(int roomId)
-        {
-            if (UserIsAdmin())
-                return View("ErrorPage", "Администратор не может забронировать номер.");
-            if (UserIsResident())
-                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
-
-            return !UserIsResident() ? View(_roomDb.GetEntity(roomId)) : View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
+            return View(hotelBuildingId);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount)
+        public IActionResult SelectRequirements(int hotelBuildingId, DateTime momentStart, DateTime momentEnd, int personCount)
         {
-            Room room = _roomDb.GetEntity(roomId);
-            momentEnd = momentEnd.AddDays(0.9993);
-
-            //проверить, является ли пользователь клиентом (не имеет бронь и не администратор)
-            if (UserIsAdmin())
-                return View("ErrorPage", "Администратор не может забронировать номер.");
-            if (UserIsResident())
-                return View("ErrorPage", "Постоялец не может забронировать ещё один номер.");
-
             //проверить промежуток времени
             if (momentStart >= momentEnd)
                 return View("ErrorPage", "Дата начала должна быть меньше даты окончания.");
             if (momentStart < DateTime.Now.Date)
                 return View("ErrorPage", "Дата начала должна быть не раньше сегодняшнего дня.");
 
-            //проверить доступность самой комнаты
-            if (!room.IsAvailable)
-                return View("ErrorPage", "Комната временно недоступна.");
+            return RedirectToAction("SelectRoom", new
+            {
+                hotelBuildingId,
+                momentStart,
+                momentEnd = momentEnd.AddDays(0.9993),
+                personCount
+            });
+        }
 
-            //проверить вместительность
-            if (personCount > room.MaxPersonCount)
-                return View("ErrorPage", "Комната не рассчитана на данное количество человек.");
+        [Authorize]
+        public IActionResult SelectRoom(int hotelBuildingId, DateTime momentStart, DateTime momentEnd, int personCount)
+        {
+            return View(new RoomsViewData(_hotelBuildingDb.GetEntity(hotelBuildingId), new BookRequirements(momentStart, momentEnd, personCount), _bookDb.GetEntityList()));
+        }
 
-            //проверить возможность забронировать
-            foreach (Book existingBook in _bookDb.GetEntityList())
-                if (existingBook.RoomId == room.Id && existingBook.MomentStart < momentEnd && existingBook.MomentEnd > momentStart)
-                    return View("ErrorPage", "Выбранный промежуток времени пересекается с другой бронью. Выберите другое время или смените номер.");
+        [Authorize]
+        [HttpPost]
+        public IActionResult SelectRoom(int roomId, DateTime momentStart, DateTime momentEnd, int personCount, bool confirm)
+        {
+            return RedirectToAction("AddBook", new
+            {
+                roomId,
+                momentStart,
+                momentEnd,
+                personCount
+            });
+        }
+
+        [Authorize]
+        public IActionResult AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount)
+        {
+            return View(new BookNewModel()
+            {
+                Room = _roomDb.GetEntity(roomId),
+                MomentStart = momentStart,
+                MomentEnd = momentEnd,
+                PersonCount = personCount
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount, bool confirm)
+        {
+            if (UserIsAdmin())
+                return View("ErrorPage", "Администратор не может забронировать номер.");
+            if (BookExists())
+                return View("ErrorPage", "Нельзя бронировать более одного номера.");
 
             try
             {
-                Book book = new Book(_bookDb.GetNewId(), momentStart, momentEnd, personCount, room.Price);
+                Room room = _roomDb.GetEntity(roomId);
+                Book book = new Book(_bookDb.GetNewId(), momentStart, momentEnd, personCount,
+                    room.Price * (momentEnd - momentStart).Days * personCount);
                 book.Link(await _userManager.GetUserAsync(User), room);
                 _bookDb.Create(book);
                 return RedirectToAction("Index");
@@ -206,9 +214,20 @@ namespace hotel_site.Controllers
 
         public bool UserIsResident()
         {
+            string userId = _userManager.GetUserId(User);
             bool activeBookExists = false;
             foreach (Book book in _bookDb.GetEntityList())
-                if (book.UserId == _userManager.GetUserId(User) && book.IsActive())
+                if (book.UserId == userId && book.IsActive())
+                    activeBookExists = true;
+            return activeBookExists;
+        }
+
+        public bool BookExists()
+        {
+            string userId = _userManager.GetUserId(User);
+            bool activeBookExists = false;
+            foreach (Book book in _bookDb.GetEntityList())
+                if (book.UserId == userId)
                     activeBookExists = true;
             return activeBookExists;
         }
