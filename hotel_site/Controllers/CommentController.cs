@@ -63,7 +63,11 @@ namespace hotel_site.Controllers
 
         public IActionResult Index()
         {
-            return View(_commentDb.GetEntityList());
+            return View(new CommentsViewData()
+            {
+                Comments = _commentDb.GetEntityList(),
+                AddCommentEnabled = UserIsResident()
+            });
         }
 
         [Authorize]

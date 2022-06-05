@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Comment>
+﻿@model CommentsViewData
 
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@
 <body>
     <h1>Отзывы</h1>
     <div class="grid-container">
-        @foreach (Comment comment in Model)
+        @foreach (Comment comment in Model.Comments)
         {
             <div class="grid-item">
                 <h3>@comment.UserName</h3>
@@ -24,7 +24,7 @@
             </div>
         }
     </div>
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    @if (Model.AddCommentEnabled)
     {
         <a asp-area="" asp-controller="Comment" asp-action="AddComment">Оставить отзыв</a>
     }
