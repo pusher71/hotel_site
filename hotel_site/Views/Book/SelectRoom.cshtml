@@ -9,7 +9,7 @@
 <body>
     @if (Model.RoomFloors.Count > 0)
     {
-        <h2>Выберите номер</h2>
+        <h2>Выбор номера</h2>
         @foreach (string floor in Model.RoomFloors.OrderBy(k => -int.Parse(k)))
         {
             <table>

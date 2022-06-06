@@ -15,6 +15,7 @@
         <p>Количество человек: @Model.PersonCount</p>
         <p>Дата начала: @Model.MomentStart.ToShortDateString()</p>
         <p>Дата окончания: @Model.MomentEnd.ToShortDateString()</p>
+        <p>Цена: @(Model.Room.Price * (Model.MomentEnd - Model.MomentStart).Days * Model.PersonCount) р.</p>
         <form method="post">
             <input type="hidden" name="roomId" value="@Model.Room.Id" />
             <input type="hidden" name="momentStart" value="@Model.MomentStart" />

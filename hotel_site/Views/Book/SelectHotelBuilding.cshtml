@@ -7,7 +7,7 @@
     <title>Book</title>
 </head>
 <body>
-    <h2>Выберите корпус отеля</h2>
+    <h2>Выбор корпуса отеля</h2>
     @foreach (HotelBuilding hotelBuilding in Model)
     {
         <a asp-area="" asp-controller="Book" asp-action="SelectRequirements" asp-route-hotelBuildingId="@hotelBuilding.Id">@hotelBuilding.Name</a>
