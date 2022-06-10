@@ -7,55 +7,53 @@
     <title>Book</title>
 </head>
 <body>
-    @if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("admin") && Model.Count() == 0)
+    <h1>Брони</h1>
+    <table border=1>
+        <tr>
+            <th>Имя пользователя</th>
+            <th>Корпус</th>
+            <th>Номер</th>
+            <th>Дата начала</th>
+            <th>Дата окончания</th>
+            <th>Цена</th>
+            <th>Оплачено</th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        @foreach (Book book in Model)
+        {
+            <tr>
+                <td><a asp-area="" asp-controller="Account" asp-action="Profile" asp-route-userId="@book.UserId">@book.UserName</a></td>
+                <td><a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@book.Room.HotelBuildingId">@book.Room.HotelBuilding.Name</a></td>
+                <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@book.RoomId">@book.Room.Number</a></td>
+                <td>@book.MomentStart.ToShortDateString()</td>
+                <td>@book.MomentEnd.ToShortDateString()</td>
+                <td>@book.Price р.</td>
+                <td>@(book.Paid ? "Да" : "Нет")</td>
+                @if (User.IsInRole("admin") && !book.Paid)
+                {
+                    <td><a asp-area="" asp-controller="Book" asp-action="MarkAsPaid" asp-route-id="@book.Id">Пометить бронь как оплаченную</a></td>
+                }
+                else
+                {
+                    <td> </td>
+                }
+                @if (User.IsInRole("admin") || !book.IsActive())
+                {
+                    <td><a asp-area="" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
+                }
+                else
+                {
+                    <td>Действующую бронь нельзя удалить</td>
+                }
+            </tr>
+        }
+    </table>
+
+    @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("admin") || Model.Count() == 0))
     {
         <a asp-area="" asp-controller="Book" asp-action="SelectHotelBuilding">Забронировать номер</a>
         <br />
-    }
-    else
-    {
-        <h1>Брони</h1>
-        <table border=1>
-            <tr>
-                <th>Имя пользователя</th>
-                <th>Корпус</th>
-                <th>Номер</th>
-                <th>Дата начала</th>
-                <th>Дата окончания</th>
-                <th>Цена</th>
-                <th>Оплачено</th>
-                <th> </th>
-                <th> </th>
-            </tr>
-            @foreach (Book book in Model)
-            {
-                <tr>
-                    <td><a asp-area="" asp-controller="Account" asp-action="Profile" asp-route-userId="@book.UserId">@book.UserName</a></td>
-                    <td><a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@book.Room.HotelBuildingId">@book.Room.HotelBuilding.Name</a></td>
-                    <td><a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@book.RoomId">@book.Room.Number</a></td>
-                    <td>@book.MomentStart.ToShortDateString()</td>
-                    <td>@book.MomentEnd.ToShortDateString()</td>
-                    <td>@book.Price р.</td>
-                    <td>@(book.Paid ? "Да" : "Нет")</td>
-                    @if (User.IsInRole("admin") && !book.Paid)
-                    {
-                        <td><a asp-area="" asp-controller="Book" asp-action="MarkAsPaid" asp-route-id="@book.Id">Пометить бронь как оплаченную</a></td>
-                    }
-                    else
-                    {
-                        <td> </td>
-                    }
-                    @if (User.IsInRole("admin") || !book.IsActive())
-                    {
-                        <td><a asp-area="" asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
-                    }
-                    else
-                    {
-                        <td>Действующую бронь нельзя удалить</td>
-                    }
-                </tr>
-            }
-        </table>
     }
 
     <a asp-area="" asp-controller="Home" asp-action="Index">Назад</a>

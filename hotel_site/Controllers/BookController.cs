@@ -105,9 +105,7 @@ namespace hotel_site.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBook(int roomId, DateTime momentStart, DateTime momentEnd, int personCount, bool confirm)
         {
-            if (UserIsAdmin())
-                return View("ErrorPage", "Администратор не может забронировать номер.");
-            if (BookExists())
+            if (!UserIsAdmin() && BookExists())
                 return View("ErrorPage", "Нельзя бронировать более одного номера.");
 
             try
