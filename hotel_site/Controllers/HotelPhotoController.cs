@@ -56,7 +56,7 @@ namespace hotel_site.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult DeleteHotelPhoto(int id)
         {
-            return View(id);
+            return View(_hotelPhotoDb.GetEntity(id));
         }
 
         [Authorize(Roles = "admin")]

@@ -114,7 +114,7 @@ namespace hotel_site.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult DeleteRoom(int id)
         {
-            return View(id);
+            return View(_roomDb.GetEntity(id));
         }
 
         [Authorize(Roles = "admin")]
