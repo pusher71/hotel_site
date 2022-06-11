@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using hotel_site.Models;
@@ -61,6 +62,8 @@ namespace hotel_site.Controllers
                 return View("ErrorPage", "Контактный телефон не должен быть пустым.");
             if (email == null)
                 return View("ErrorPage", "E-mail не должен быть пустым.");
+            if (!PhoneNumberIsValid(phoneNumber))
+                return View("ErrorPage", "Номер телефона должен начинаться с плюса и иметь 11 цифр.");
 
             try
             {
@@ -90,6 +93,12 @@ namespace hotel_site.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private bool PhoneNumberIsValid(string phoneNumber)
+        {
+            Regex regex = new Regex(@"\+\d{11}");
+            return phoneNumber.Length == 12 && regex.IsMatch(phoneNumber);
         }
     }
 }

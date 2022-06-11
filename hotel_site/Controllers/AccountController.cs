@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using hotel_site.Models;
 using hotel_site.Models.ViewModels;
 
@@ -84,6 +85,12 @@ namespace hotel_site.Controllers
                     return View(model);
                 }
 
+                if (!PhoneNumberIsValid(model.PhoneNumber))
+                {
+                    ModelState.AddModelError("Ошибка регистрации.", "Номер телефона должен начинаться с плюса и иметь 11 цифр.");
+                    return View(model);
+                }
+
                 User user = new User {
                     UserName = model.UserName,
                     FirstName = model.FirstName,
@@ -106,6 +113,12 @@ namespace hotel_site.Controllers
                 return View(model);
             }
             return View(model);
+        }
+
+        private bool PhoneNumberIsValid(string phoneNumber)
+        {
+            Regex regex = new Regex(@"\+\d{11}");
+            return phoneNumber.Length == 12 && regex.IsMatch(phoneNumber);
         }
     }
 }
