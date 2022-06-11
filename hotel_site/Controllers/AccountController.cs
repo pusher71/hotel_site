@@ -109,7 +109,7 @@ namespace hotel_site.Controllers
                     else
                         return View("ErrorPage", "Не удалось выполнить вход в сисему");
                 }
-                ModelState.AddModelError("", "Неизвестная ошибка авторизации. Возможно, данный логин уже занят.");
+                ModelState.AddModelError("", "Неизвестная ошибка авторизации. Попробуйте использовать более сложный пароль, либо другой логин.");
                 return View(model);
             }
             return View(model);
