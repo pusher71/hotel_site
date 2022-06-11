@@ -124,6 +124,8 @@ namespace hotel_site.Controllers
             try
             {
                 Room room = _roomDb.GetEntity(id);
+                if (room.Books.Count > 0)
+                    return View("ErrorPage", "Ошибка. Нельзя удалить номер, на который имеется бронь.");
                 _roomDb.Delete(id);
                 return RedirectToAction("Index", "HotelBuilding", new { id = room.HotelBuildingId });
             }

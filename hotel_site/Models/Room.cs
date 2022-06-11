@@ -15,6 +15,7 @@ namespace hotel_site.Models
         public int HotelBuildingId { get; set; }
         public virtual HotelBuilding HotelBuilding { get; set; }
         public virtual ICollection<RoomPhoto> RoomPhotos { get; set; } = new List<RoomPhoto>();
+        public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 
         public Room(int id, string number, string floor, float square, float price, int maxPersonCount, bool isAvailable)
         {
