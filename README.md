@@ -1,1 +1,4 @@
-
+- Run: `docker-compose up`
+- Run: `update-database -context DataContext`
+- Run: `update-database -context AppIdentityDbContext`
+- Run: `dotnet run`
