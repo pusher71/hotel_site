@@ -18,7 +18,7 @@ namespace hotel_site
             RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
             //создать роль администратора
-            if (await roleManager.RoleExistsAsync("admin"))
+            if (!await roleManager.RoleExistsAsync("admin"))
                 await roleManager.CreateAsync(new IdentityRole("admin"));
 
             //создать администратора
@@ -26,8 +26,8 @@ namespace hotel_site
             if (admin == null)
             {
                 admin = new User(adminUserName, adminFirstName, adminLastName);
-                await userManager.AddToRoleAsync(admin, "admin");
                 await userManager.CreateAsync(admin, adminPassword);
+                await userManager.AddToRoleAsync(admin, "admin");
             }
         }
     }
