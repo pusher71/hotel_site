@@ -29,15 +29,18 @@ namespace hotel_site.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public IActionResult AddRoomPhoto(int hotelBuildingId)
+        public IActionResult AddRoomPhoto(int roomId)
         {
-            return View(hotelBuildingId);
+            return View(roomId);
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult AddRoomPhoto(int roomId, IFormFile uploadImage)
         {
+            if (uploadImage == null)
+                return View("ErrorPage", "Изображение не загружено.");
+
             try
             {
                 //перевести переданный файл в массив байтов

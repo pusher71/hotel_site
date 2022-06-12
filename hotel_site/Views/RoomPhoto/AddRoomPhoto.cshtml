@@ -11,7 +11,7 @@
     {
         <h2>Добавить фотографию номера</h2>
         <form method="post" enctype="multipart/form-data">
-            <input type="hidden" name="hotelBuildingId" value="@Model" />
+            <input type="hidden" name="roomId" value="@Model" />
             <label>Файл изображения:</label>
             <input type="file" name="uploadImage" />
             <br />
@@ -23,6 +23,6 @@
         <h2>Требуется авторизация для добавления фотографии номера</h2>
     }
 
-    <a asp-area="" asp-controller="HotelBuilding" asp-action="Index" asp-route-id="@Model">Назад</a>
+    <a asp-area="" asp-controller="Room" asp-action="Index" asp-route-id="@Model">Назад</a>
 </body>
 </html>

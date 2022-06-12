@@ -9,7 +9,7 @@
 <body>
     @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
-        <h2>Редактировать информацию о номере</h2>
+        <h2>Редактировать услугу</h2>
         <form method="post">
             <label>Название:</label>
             <input type="text" name="name" value="@Model.Name" />

@@ -31,6 +31,9 @@ namespace hotel_site.Controllers
         [HttpPost]
         public IActionResult AddHotelPhoto(int hotelBuildingId, IFormFile uploadImage)
         {
+            if (uploadImage == null)
+                return View("ErrorPage", "Изображение не загружено.");
+
             try
             {
                 //перевести переданный файл в массив байтов
