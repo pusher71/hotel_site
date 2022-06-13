@@ -12,10 +12,8 @@
         @foreach (Message message in Model.Messages)
         {
         <div class="grid-item">
-            <h3>От: @message.UserFromName</h3>
-            <h3>Кому: @message.UserToName</h3>
+            <p>@message.UserFromName @message.Timestamp.ToString()</p>
             <p>@message.Text</p>
-            <p>Добавлено: @message.Timestamp.ToString()</p>
         </div>
         }
     </div>
